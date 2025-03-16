@@ -3,45 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Website</title>
-    <style>
-        /* Navigation Bar Styles */
-        nav {
-            background-color: #333; /* Dark background */
-            padding: 10px;
-            text-align: center;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            font-size: 18px;
-        }
-        nav a:hover {
-            background-color: #555; /* Hover effect */
-            border-radius: 5px;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-    </style>
+    <title>Your Name - Data Scientist & Full-Stack Developer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo">YourName</div>
+            <nav>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="about" class="hero-section">
+            <div class="avatar">
+                <img src="https://via.placeholder.com/160" alt="Profile">
+            </div>
+            <h1>Hi, I'm <span class="highlight">Your Name</span></h1>
+            <p class="subtitle">
+                Data Scientist & Full-Stack Developer passionate about building innovative solutions 
+                that solve real-world problems.
+            </p>
+            <div class="button-group">
+                <a href="#contact" class="button primary">Get in Touch</a>
+                <a href="#projects" class="button outline">View Projects</a>
+            </div>
+        </section>
 
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About Me</a>
-        <a href="projects.html">Projects</a>
-        <a href="contact.html">Contact</a>
-    </nav>
+        <!-- Skills Section -->
+        <section id="skills" class="skills-section">
+            <h2>My Skills</h2>
+            <div class="skills-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Data Science</h3>
+                        <p>Tools and technologies I use for data analysis and machine learning</p>
+                    </div>
+                    <div class="card-content">
+                        <span class="badge">Python</span>
+                        <span class="badge">Pandas</span>
+                        <span class="badge">NumPy</span>
+                        <span class="badge">Scikit-learn</span>
+                        <span class="badge">TensorFlow</span>
+                        <span class="badge">PyTorch</span>
+                        <span class="badge">Jupyter</span>
+                        <span class="badge">SQL</span>
+                        <span class="badge">Data Visualization</span>
+                        <span class="badge">Machine Learning</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Full-Stack Development</h3>
+                        <p>Technologies I use to build web applications</p>
+                    </div>
+                    <div class="card-content">
+                        <span class="badge">JavaScript</span>
+                        <span class="badge">TypeScript</span>
+                        <span class="badge">React</span>
+                        <span class="badge">Next.js</span>
+                        <span class="badge">Node.js</span>
+                        <span class="badge">Express</span>
+                        <span class="badge">MongoDB</span>
+                        <span class="badge">PostgreSQL</span>
+                        <span class="badge">REST API</span>
+                        <span class="badge">GraphQL</span>
+                        <span class="badge">Tailwind CSS</span>
+                        <span class="badge">Git</span>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <h1>Welcome to My Website</h1>
-    <p>Hi, I'm [Your Name]. This is my personal space on the web.</p>
+        <!-- Projects Section -->
+        <section id="projects" class="projects-section">
+            <h2>Featured Projects</h2>
+            <div class="projects-grid">
+                <!-- Data Science Project -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Predictive Analytics Dashboard</h3>
+                        <p>Data Science Project</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x200" alt="Project screenshot">
+                        </div>
+                        <p>
+                            Built a predictive analytics dashboard using Python, Pandas, and Scikit-learn to forecast sales trends with 92% accuracy.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="badge-group">
+                            <span class="badge outline">Python</span>
+                            <span class="badge outline">Machine Learning</span>
+                            <span class="badge outline">Pandas</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="#" class="button outline small">
+                                <i class="fab fa-github"></i> View on GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Full-Stack Project 1 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>E-Commerce Platform</h3>
+                        <p>Full-Stack Project</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x200" alt="Project screenshot">
+                        </div>
+                        <p>
+                            Developed a full-stack e-commerce platform with React, Node.js, and MongoDB featuring user authentication, product catalog, and payment processing.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="badge-group">
+                            <span class="badge outline">React</span>
+                            <span class="badge outline">Node.js</span>
+                            <span class="badge outline">MongoDB</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="#" class="button outline small">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="#" class="button outline small">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full-Stack Project 2 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Data Visualization Tool</h3>
+                        <p>Full-Stack Project</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="project-image">
+                            <img src="https://via.placeholder.com/400x200" alt="Project screenshot">
+                        </div>
+                        <p>
+                            Created an interactive data visualization tool using D3.js and Next.js that allows users to upload and analyze their own datasets.
+                        </p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="badge-group">
+                            <span class="badge outline">Next.js</span>
+                            <span class="badge outline">D3.js</span>
+                            <span class="badge outline">TypeScript</span>
+                        </div>
+                        <div class="button-group">
+                            <a href="#" class="button outline small">
+                                <i class="fab fa-github"></i> Code
+                            </a>
+                            <a href="#" class="button outline small">
+                                <i class="fas fa-external-link-alt"></i> Demo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <h2>Get In Touch</h2>
+            <div class="contact-card">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Contact Information</h3>
+                        <p>Feel free to reach out through any of these channels</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:your.email@example.com">your.email@example.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-github"></i>
+                            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">github.com/yourusername</a>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">linkedin.com/in/yourusername</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="current-year"></span> Your Name. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com/in/yourusername" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:your.email@example.com">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
 </body>
 </html>
 
