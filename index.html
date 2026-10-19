@@ -1,231 +1,1511 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rena Abbasova - Data Scientist & Web Development</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rena Abbasova — Data, Software &amp; Automation</title>
+<meta name="description" content="Developer with a finance background, working with data, backend and automation. Based in Pamplona, Spain. Projects and experience.">
+<link rel="canonical" href="https://renaabbasova.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Rena Abbasova">
+<meta property="og:title" content="Rena Abbasova — Data, Software &amp; Automation">
+<meta property="og:description" content="I turn raw, disconnected things into systems that work: data pipelines, APIs and automation. Projects and experience.">
+<meta property="og:url" content="https://renaabbasova.github.io/">
+<meta property="og:image" content="https://renaabbasova.github.io/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#11151C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A7%3C/text%3E%3C/svg%3E">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Rena Abbasova","url":"https://renaabbasova.github.io/","email":"abbasova.r@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Pamplona","addressCountry":"ES"},"sameAs":["https://github.com/RenaAbbasova","https://www.linkedin.com/in/rena","https://public.tableau.com/app/profile/rena7178"]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#11151C;
+    --panel:#171D27;
+    --panel-2:#1D2430;
+    --line:#2A3240;
+    --text:#E7E9EC;
+    --muted:#8B93A1;
+    --amber:#E8A33D;
+    --teal:#4FB8A8;
+    --amber-dim: rgba(232,163,61,0.12);
+    --teal-dim: rgba(79,184,168,0.12);
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--ink);color:var(--text);}
+  html{scroll-behavior:smooth; scroll-padding-top: env(safe-area-inset-top, 0px);}
+  body{
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    overflow-x:hidden;
+  }
+  .mono{font-family:'JetBrains Mono', monospace;}
+  a{color:inherit;}
+  ::selection{background:var(--amber); color:var(--ink);}
+
+  /* layout helpers */
+  .wrap{max-width:1040px; margin:0 auto; padding:0 28px;}
+  section{position:relative;}
+
+  /* background grid */
+  .grid-bg{
+    position:absolute; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: linear-gradient(to bottom, black, transparent 90%);
+  }
+
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(10px);
+    background: rgba(17,21,28,0.78);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; height:64px;}
+  .brand{font-weight:600; font-size:16px; letter-spacing:0.2px;}
+  .brand .dot{color:var(--amber);}
+  .navlinks{display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; max-width:100%;}
+  .navlinks::-webkit-scrollbar{display:none;}
+  .navlinks button{
+    appearance:none; background:none; border:none; cursor:pointer;
+    font:inherit; font-size:14px; color:var(--muted);
+    padding:9px 14px; border-radius:7px; white-space:nowrap;
+    transition:color .15s ease, background .15s ease;
+  }
+  .navlinks button:hover{color:var(--text);}
+  .navlinks button[aria-selected="true"]{color:var(--text); background:var(--panel); box-shadow:inset 0 -2px 0 var(--amber);}
+  .navlinks button:focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+  nav .wrap{flex-wrap:wrap; gap:4px 24px; padding-top:10px; padding-bottom:10px; height:auto; min-height:64px;}
+  @media(max-width:720px){
+    .navlinks{width:100%; flex-wrap:wrap; overflow:visible; gap:2px;}
+    .navlinks button{font-size:13px; padding:8px 11px;}
+    nav{position:static;}
+  }
+
+  /* TABS */
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block; animation:panelIn .28s ease both;}
+  @keyframes panelIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+  .tp-first{border-top:none !important;}
+  .cta-row{display:flex; flex-wrap:wrap; gap:12px; margin-top:28px;}
+  .cta{
+    appearance:none; cursor:pointer; font:inherit; font-size:14.5px; font-weight:500;
+    padding:13px 22px; border-radius:9px; border:1px solid var(--line);
+    background:var(--panel); color:var(--text);
+    transition:border-color .15s ease, filter .15s ease;
+  }
+  .cta:hover{border-color:var(--teal);}
+  .cta.primary{background:var(--amber); color:var(--ink); border-color:var(--amber);}
+  .cta.primary:hover{filter:brightness(1.08);}
+
+  /* HERO */
+  .hero{padding:120px 0 96px; overflow:hidden;}
+  .kicker{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:13px; color:var(--muted); margin-bottom:28px;
+  }
+  .kicker .pulse{
+    width:7px;height:7px;border-radius:50%;background:var(--teal);
+    box-shadow:0 0 0 0 rgba(79,184,168,.6);
+    animation:pulse 2.4s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(79,184,168,.55);}
+    70%{box-shadow:0 0 0 9px rgba(79,184,168,0);}
+    100%{box-shadow:0 0 0 0 rgba(79,184,168,0);}
+  }
+  h1{
+    font-size:clamp(34px,6vw,64px);
+    line-height:1.06;
+    font-weight:600;
+    margin:0 0 26px;
+    max-width:19ch;
+    letter-spacing:-0.5px;
+  }
+  .lede{
+    font-size:clamp(16px,2vw,19px);
+    line-height:1.6;
+    color:var(--muted);
+    max-width:56ch;
+    margin:0 0 40px;
+  }
+  .lede strong{color:var(--text); font-weight:500;}
+  .lede-line{display:block;}
+  .lede-line + .lede-line{margin-top:14px;}
+
+  .threads{display:flex; flex-wrap:wrap; gap:12px;}
+  .thread-chip{
+    display:flex; align-items:center; gap:9px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    padding:10px 16px;
+    border-radius:8px;
+    font-size:14px;
+  }
+  .thread-chip .sw{width:8px; height:8px; border-radius:2px;}
+
+  /* connector svg under hero */
+  .flow-wrap{margin-top:64px;}
+  .flow-wrap svg{width:100%; height:auto; display:block;}
+  .flow-dash{stroke-dasharray:6 7; animation:dash 2.4s linear infinite;}
+  @keyframes dash{to{stroke-dashoffset:-130;}}
+
+  /* SECTION HEADS */
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12.5px;
+    color:var(--teal);
+    margin-bottom:14px;
+  }
+  h2{
+    font-size:clamp(24px,3.4vw,34px);
+    font-weight:600;
+    margin:0 0 20px;
+    letter-spacing:-0.3px;
+  }
+    h1.sec{ font-size:clamp(24px,3.4vw,34px); font-weight:600; margin:0 0 20px; letter-spacing:-0.3px; line-height:inherit; max-width:none; }
+    .contact-wrap h1.sec{ max-width:18ch; }
+    .proj-card{ min-width:0; overflow-wrap:anywhere; }
+  .section-pad{padding:88px 0;}
+  .section-pad.border-t{border-top:1px solid var(--line);}
+
+  /* APPROACH */
+  .approach-grid{
+    display:grid; grid-template-columns:1fr; gap:36px; margin-top:44px;
+  }
+  @media(min-width:760px){.approach-grid{grid-template-columns:1fr 1fr 1fr;}}
+  .approach-card{
+    border-left:2px solid var(--line);
+    padding-left:20px;
+  }
+  .approach-card .num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px; color:var(--amber); margin-bottom:10px; display:block;
+  }
+  .approach-card h3{font-size:18px; margin:0 0 10px; font-weight:600;}
+  .approach-card p{font-size:14.5px; line-height:1.65; color:var(--muted); margin:0;}
+
+  .pquote{
+    margin-top:56px;
+    font-size:clamp(18px,2.4vw,23px);
+    line-height:1.55;
+    max-width:62ch;
+    color:var(--text);
+    border-left:2px solid var(--amber);
+    padding-left:22px;
+  }
+
+  /* EXPERIENCE TIMELINE */
+  .timeline{margin-top:48px; position:relative;}
+  .trow{
+    display:grid; grid-template-columns:160px 1fr; gap:24px;
+    padding:28px 0; border-top:1px solid var(--line);
+  }
+  .trow:first-child{border-top:none;}
+  .tyears{font-family:'JetBrains Mono', monospace; font-size:13px; color:var(--muted); padding-top:3px;}
+  .trole{font-size:18px; font-weight:600; margin:0 0 4px;}
+  .torg{font-size:14px; color:var(--teal); margin:0 0 12px;}
+  @media(max-width:600px){ .trow{grid-template-columns:1fr; gap:6px;} }
+  .role-chip{font-family:'JetBrains Mono', monospace; font-size:10.5px; font-weight:500; color:var(--amber); background:var(--amber-dim); padding:3px 8px; border-radius:5px; margin-left:10px; vertical-align:middle; white-space:nowrap;}
+  .tdesc{font-size:14.5px; line-height:1.65; color:var(--muted); margin:0; max-width:62ch;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .tag{
+    font-family:'JetBrains Mono', monospace; font-size:11.5px;
+    color:var(--muted); border:1px solid var(--line);
+    padding:4px 9px; border-radius:5px;
+  }
+
+  /* PROJECTS */
+  .proj-subhead{ letter-spacing:0;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; font-weight:500;
+    color:var(--muted); margin:44px 0 0; text-transform:none;
+  }
+  .proj-grid{display:grid; grid-template-columns:minmax(0,1fr); gap:1px; margin-top:44px; background:var(--line); border:1px solid var(--line);}
+  @media(min-width:720px){.proj-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}}
+  .proj-card{
+    background:var(--panel);
+    padding:28px;
+    display:flex; flex-direction:column; gap:14px;
+    transition:background .15s ease;
+  }
+  .proj-card:hover{background:var(--panel-2);}
+  .proj-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+  .proj-card h3{font-size:16.5px; font-weight:600; margin:0; line-height:1.35;}
+  .proj-badge{
+    font-family:'JetBrains Mono', monospace; font-size:10.5px;
+    white-space:nowrap;
+    padding:4px 8px; border-radius:5px;
+  }
+  .badge-live{background:var(--teal-dim); color:var(--teal);}
+  .badge-done{background:var(--amber-dim); color:var(--amber);}
+  .proj-card p{font-size:13.8px; line-height:1.6; color:var(--muted); margin:0; flex-grow:1;}
+  .proj-tags{display:flex; flex-wrap:wrap; gap:7px;}
+  .proj-tags span{
+    font-family:'JetBrains Mono', monospace; font-size:11px;
+    color:var(--muted); border:1px solid var(--line); padding:3px 8px; border-radius:4px;
+  }
+  .proj-subhead + .proj-grid{margin-top:18px;}
+  @media(min-width:720px){ .proj-grid .proj-card:last-child:nth-child(odd){grid-column:1 / -1;} }
+  .proj-links{display:flex; flex-wrap:wrap; gap:6px 22px;}
+  .proj-link{
+    font-size:13px; font-weight:500; color:var(--text);
+    text-decoration:none; display:inline-flex; align-items:center; gap:6px;
+    margin-top:4px;
+  }
+  .proj-link svg{width:13px; height:13px;}
+  .proj-link:hover{color:var(--teal);}
+
+  /* SKILLS */
+  .skills-grid{display:grid; grid-template-columns:1fr; gap:32px; margin-top:44px;}
+  @media(min-width:720px){.skills-grid{grid-template-columns:1fr 1fr;}}
+  .skill-group h3, .skill-group h2{ letter-spacing:0;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px;
+    color:var(--muted); text-transform:none; margin:0 0 14px; font-weight:500;
+  }
+  .skill-group.studied{ grid-column:1 / -1; }
+  .skill-note{ font-size:13px; color:var(--muted); margin:0 0 14px; line-height:1.5; }
+  .skill-pills{display:flex; flex-wrap:wrap; gap:8px;}
+  .skill-pill{
+    font-size:13.5px; padding:7px 13px; border-radius:7px;
+    background:var(--panel); border:1px solid var(--line);
+  }
+
+  /* EDUCATION */
+  .edu-list{margin-top:44px; display:flex; flex-direction:column; gap:0;}
+  .edu-row{
+    display:grid; grid-template-columns:1fr auto; gap:16px;
+    padding:18px 0; border-top:1px solid var(--line);
+    align-items:baseline;
+  }
+  .edu-row:first-child{border-top:none;}
+  .edu-row .deg{font-size:15px; font-weight:500;}
+  .edu-row .org{font-size:13.5px; color:var(--muted); margin-top:2px;}
+  .edu-row .yr{font-family:'JetBrains Mono', monospace; font-size:12.5px; color:var(--muted); white-space:nowrap;}
+
+  .cert-list{margin-top:28px; display:flex; flex-direction:column; gap:10px;}
+  .cert-row{font-size:14px; color:var(--muted); display:flex; gap:10px;}
+  .cert-row .mark{color:var(--amber);}
+
+  /* CONTACT */
+  .contact-wrap{text-align:left;}
+  .contact-wrap h2{max-width:18ch;}
+  .contact-links{display:flex; flex-wrap:wrap; gap:14px; margin-top:36px;}
+  .clink{
+    display:flex; align-items:center; gap:10px;
+    border:1px solid var(--line); background:var(--panel);
+    padding:14px 20px; border-radius:9px; text-decoration:none;
+    font-size:14.5px; font-weight:500;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .clink:hover{border-color:var(--teal); background:var(--panel-2);}
+  .clink svg{width:17px; height:17px; color:var(--teal);}
+
+  footer{border-top:1px solid var(--line); padding:32px 0; }
+  footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+  footer p{font-size:12.5px; color:var(--muted); margin:0; font-family:'JetBrains Mono', monospace;}
+
+  @media (prefers-reduced-motion: reduce){
+    .flow-dash{animation:none;}
+    .tab-panel.active{animation:none;}
+    .kicker .pulse{animation:none;}
+  }
+
+  [data-cv][hidden]{display:none !important;}
+  button.clink{font-family:inherit; font-size:14.5px; font-weight:500; color:inherit; cursor:pointer;}
+
+  .tlist{margin:0; padding:0; list-style:none; max-width:66ch;}
+  .tlist li{position:relative; padding-left:18px; margin:0 0 8px; font-size:14.5px; line-height:1.65; color:var(--muted);}
+  .tlist li::before{content:''; position:absolute; left:0; top:0.78em; width:7px; height:1px; background:var(--teal);}
+  .inline-link{color:var(--teal); text-decoration:underline; text-underline-offset:3px;}
+  .inline-link:hover{color:var(--text);}
+  .tags-label{font-family:'JetBrains Mono', monospace; font-size:10.5px; color:var(--teal); align-self:center; margin-right:4px; letter-spacing:.4px;}
+  .stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(176px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:44px;}
+  .stat{background:var(--panel); padding:20px 22px;}
+  .stat-n{font-size:28px; font-weight:600; letter-spacing:-0.5px; color:var(--text);}
+  .stat-l{font-family:'JetBrains Mono', monospace; font-size:11.5px; line-height:1.55; color:var(--muted); margin-top:8px;}
+
+  /* LANGUAGE SWITCH */
+  .site{display:none;}
+  .site.active{display:block;}
+  nav .brand{order:1;}
+  nav .navlinks{order:2;}
+  .lang-switch{order:3; display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; flex-shrink:0;}
+  .lang-switch button{
+    appearance:none; background:none; border:none; cursor:pointer; color:var(--muted);
+    font-family:'JetBrains Mono', monospace; font-size:12px; font-weight:500; padding:7px 12px;
+    transition:color .15s ease, background .15s ease;
+  }
+  .lang-switch button:hover{color:var(--text);}
+  .lang-switch button[aria-pressed="true"]{background:var(--panel); color:var(--text); box-shadow:inset 0 -2px 0 var(--amber);}
+  .lang-switch button:focus-visible{outline:2px solid var(--teal); outline-offset:-2px;}
+  @media(max-width:720px){
+    .lang-switch{order:2; margin-left:auto;}
+    nav .navlinks{order:3;}
+  }
+</style>
 </head>
 <body>
-    <header class="sticky-header">
-        <div class="container">
-            <div class="logo">Rena Abbasova</div>
-            <nav>
-                <a href="#about">About</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </nav>
+
+<div class="site" id="site-en" lang="en">
+<nav>
+  <div class="wrap">
+    <div class="brand">RENA ABBASOVA<span class="dot">.</span></div>
+    <div class="navlinks" role="tablist">
+      <button role="tab" data-tab="home" aria-selected="false">Home</button>
+      <button role="tab" data-tab="experience" aria-selected="false">Experience</button>
+      <button role="tab" data-tab="collaborative" aria-selected="false">Collaborative</button>
+      <button role="tab" data-tab="projects" aria-selected="false">Projects</button>
+      <button role="tab" data-tab="skills" aria-selected="false">Skills</button>
+      <button role="tab" data-tab="contact" aria-selected="false">Contact</button>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button type="button" data-setlang="en" aria-pressed="true">EN</button>
+      <button type="button" data-setlang="es" aria-pressed="false">ES</button>
+    </div>
+  </div>
+</nav>
+<main id="main-en">
+
+<section class="hero tab-panel" data-tab="home">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="kicker"><span class="pulse"></span><span class="mono">BASED IN PAMPLONA, SPAIN — OPEN TO NEW ROLES</span></div>
+    <h1>I turn raw, disconnected things into systems that work.</h1>
+    <p class="lede">
+      <span class="lede-line">A spreadsheet of inconsistent transactions. Automation flows nobody documented. A dataset nobody trusts yet.</span>
+      <span class="lede-line">After nearly four years in finance, I always start with the same question: can this be trusted?</span>
+      <span class="lede-line">From there, I organize, validate, and build reliable, maintainable solutions in <strong>data science, software development, and process automation</strong>.</span>
+    </p>
+    <div class="threads">
+      <div class="thread-chip"><span class="sw" style="background:var(--teal)"></span>Data Science &amp; Analytics</div>
+      <div class="thread-chip"><span class="sw" style="background:var(--amber)"></span>Software Development</div>
+      <div class="thread-chip"><span class="sw" style="background:#9E8CF2"></span>Process Automation</div>
+    </div>
+
+    <div class="cta-row">
+      <button class="cta primary" data-goto="projects">See my projects</button>
+      <button class="cta" data-goto="contact">Get in touch</button>
+      <button class="cta" data-cv hidden type="button">Download CV (PDF)</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-n">~4 yrs</div><div class="stat-l">in finance · Gulf Hotel &amp; InterContinental, 2018–2021</div></div>
+      <div class="stat"><div class="stat-n">~2 yrs</div><div class="stat-l">of hands-on data science training · Learnbay, 2022–2024</div></div>
+      <div class="stat"><div class="stat-n">1+ yr</div><div class="stat-l">automation &amp; development · Government of Navarra</div></div>
+      <div class="stat"><div class="stat-n">500+</div><div class="stat-l">Sentinel-2 scenes processed · TerraYield</div></div>
+      <div class="stat"><div class="stat-n">30+</div><div class="stat-l">unit tests on satellite &amp; climate data pipelines</div></div>
+    </div>
+
+    <div class="flow-wrap">
+      <svg viewBox="-20 0 1040 140" preserveAspectRatio="xMidYMid meet">
+        <line x1="40" y1="70" x2="960" y2="70" stroke="#2A3240" stroke-width="1.5"/>
+        <line x1="40" y1="70" x2="960" y2="70" stroke="#4FB8A8" stroke-width="1.5" class="flow-dash" opacity="0.8"/>
+        <g>
+          <circle cx="60" cy="70" r="5" fill="#11151C" stroke="#4FB8A8" stroke-width="2"/>
+          <text x="60" y="108" fill="#8B93A1" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">raw data</text>
+        </g>
+        <g>
+          <circle cx="320" cy="70" r="5" fill="#11151C" stroke="#E8A33D" stroke-width="2"/>
+          <text x="320" y="108" fill="#8B93A1" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">validate</text>
+        </g>
+        <g>
+          <circle cx="580" cy="70" r="5" fill="#11151C" stroke="#9E8CF2" stroke-width="2"/>
+          <text x="580" y="108" fill="#8B93A1" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">automate</text>
+        </g>
+        <g>
+          <circle cx="940" cy="70" r="6" fill="#4FB8A8"/>
+          <text x="940" y="108" fill="#E7E9EC" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">working system</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="approach" class="section-pad border-t tab-panel" data-tab="home">
+  <div class="wrap">
+    <div class="eyebrow">// 01 — approach</div>
+    <h2>Three threads, one habit.</h2>
+    <div class="approach-grid">
+      <div class="approach-card">
+        <span class="num">01</span>
+        <h3>Data Science &amp; Analytics</h3>
+        <p>Nearly four years in finance taught me to ask what data is actually worth before touching it. I carried that into machine learning, statistics, and pipeline work — pricing models, churn prediction, and most recently, governing a multi-source dataset from the ground up.</p>
+      </div>
+      <div class="approach-card">
+        <span class="num">02</span>
+        <h3>Software Development</h3>
+        <p>I build the backend that makes data usable: APIs with FastAPI and Node.js, forms, and the logic that connects them. Built in a 605-hour development program, in collaborative Omdena teams, and on the job.</p>
+      </div>
+      <div class="approach-card">
+        <span class="num">03</span>
+        <h3>Process Automation</h3>
+        <p>More than a year automating government workflows with Power Automate taught me that most "automation" problems are actually data problems wearing a different hat — and the fix is usually the same.</p>
+      </div>
+    </div>
+    <p class="pquote">My profile doesn't fit a single label. I work at the intersection of data, software, and automation — building systems that turn unreliable information and processes into usable, maintainable solutions.</p>
+  </div>
+</section>
+
+<section id="experience" class="section-pad tp-first tab-panel" data-tab="experience">
+  <div class="wrap">
+    <div class="eyebrow">// 02 — experience</div>
+    <h1 class="sec">Where this was built</h1>
+    <div class="timeline">
+      <div class="trow">
+        <div class="tyears">Aug 2025 — Aug 2026</div>
+        <div>
+          <p class="trole">Software &amp; Automation Developer</p>
+          <p class="torg">Tracasa Instrumental — Government of Navarra</p>
+          <ul class="tlist">
+            <li>Built process automations for Government of Navarra projects with Power Automate Desktop, tailored to each business case.</li>
+            <li>Developed an HTML/JavaScript form as the entry point of each main flow: users entered the data there, and Power Automate processed it end to end.</li>
+            <li>Designed a SQL database that logs the metadata of every flow execution, giving traceability and performance analytics.</li>
+            <li>Implemented AI-based extraction of data from documents of many different types.</li>
+            <li>Built reusable modules shared across projects; debugged and optimized flows, with test plans.</li>
+            <li>Documented the development and managed tasks with Kanban.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">TOOLS</span><span class="tag">Power Automate Desktop</span><span class="tag">HTML</span><span class="tag">JavaScript</span><span class="tag">SQL</span><span class="tag">SQL Server</span><span class="tag">AI document processing</span><span class="tag">Kanban</span></div>
         </div>
-    </header>
-    
-    <main class="container">
-        <!-- Hero Section -->
-        <section id="about" class="hero-section">
-            <div class="avatar">
-                <img src="https://via.placeholder.com/160" alt="Profile">
-            </div>
-            <h1>Hi, I'm <span class="highlight">Rena Abbasova</span></h1>
-            <p class="subtitle">
-                Data Scientist & Full-Stack Developer passionate about building innovative solutions 
-                that solve real-world problems.
-            </p>
-            <div class="button-group">
-                <a href="#contact" class="button primary">Get in Touch</a>
-                <a href="#projects" class="button outline">View Projects</a>
-            </div>
-        </section>
+      </div>
 
-        <!-- Skills Section -->
-        <section id="skills" class="skills-section">
-            <h2>My Skills</h2>
-            <div class="skills-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Data Science</h3>
-                        <p>Tools and technologies I use for data analysis and machine learning</p>
-                    </div>
-                    <div class="card-content">
-                        <span class="badge">Python</span>
-                        <span class="badge">Pandas</span>
-                        <span class="badge">NumPy</span>
-                        <span class="badge">Scikit-learn</span>
-                        <span class="badge">TensorFlow</span>
-                        <span class="badge">PyTorch</span>
-                        <span class="badge">Jupyter</span>
-                        <span class="badge">SQL</span>
-                        <span class="badge">Data Visualization</span>
-                        <span class="badge">Machine Learning</span>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Full-Stack Development</h3>
-                        <p>Technologies I use to build web applications</p>
-                    </div>
-                    <div class="card-content">
-                        <span class="badge">JavaScript</span>
-                        <span class="badge">TypeScript</span>
-                        <span class="badge">React</span>
-                        <span class="badge">Next.js</span>
-                        <span class="badge">Node.js</span>
-                        <span class="badge">Express</span>
-                        <span class="badge">MongoDB</span>
-                        <span class="badge">PostgreSQL</span>
-                        <span class="badge">REST API</span>
-                        <span class="badge">GraphQL</span>
-                        <span class="badge">Tailwind CSS</span>
-                        <span class="badge">Git</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="projects-section">
-            <h2>Featured Projects</h2>
-            <div class="projects-grid">
-                <!-- Data Science Project -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Predictive Analytics Dashboard</h3>
-                        <p>Data Science Project</p>
-                    </div>
-                    <div class="card-content">
-                        <div class="project-image">
-                            <img src="https://via.placeholder.com/400x200" alt="Project screenshot">
-                        </div>
-                        <p>
-                            Built a predictive analytics dashboard using Python, Pandas, and Scikit-learn to forecast sales trends with 92% accuracy.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="badge-group">
-                            <span class="badge outline">Python</span>
-                            <span class="badge outline">Machine Learning</span>
-                            <span class="badge outline">Pandas</span>
-                        </div>
-                        <div class="button-group">
-                            <a href="#" class="button outline small">
-                                <i class="fab fa-github"></i> View on GitHub
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Full-Stack Project 1 -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3>E-Commerce Platform</h3>
-                        <p>Full-Stack Project</p>
-                    </div>
-                    <div class="card-content">
-                        <div class="project-image">
-                            <img src="https://via.placeholder.com/400x200" alt="Project screenshot">
-                        </div>
-                        <p>
-                            Developed a full-stack e-commerce platform with React, Node.js, and MongoDB featuring user authentication, product catalog, and payment processing.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="badge-group">
-                            <span class="badge outline">React</span>
-                            <span class="badge outline">Node.js</span>
-                            <span class="badge outline">MongoDB</span>
-                        </div>
-                        <div class="button-group">
-                            <a href="#" class="button outline small">
-                                <i class="fab fa-github"></i> Code
-                            </a>
-                            <a href="#" class="button outline small">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Full-Stack Project 2 -->
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Data Visualization Tool</h3>
-                        <p>Full-Stack Project</p>
-                    </div>
-                    <div class="card-content">
-                        <div class="project-image">
-                            <img src="https://via.placeholder.com/400x200" alt="Project screenshot">
-                        </div>
-                        <p>
-                            Created an interactive data visualization tool using D3.js and Next.js that allows users to upload and analyze their own datasets.
-                        </p>
-                    </div>
-                    <div class="card-footer">
-                        <div class="badge-group">
-                            <span class="badge outline">Next.js</span>
-                            <span class="badge outline">D3.js</span>
-                            <span class="badge outline">TypeScript</span>
-                        </div>
-                        <div class="button-group">
-                            <a href="#" class="button outline small">
-                                <i class="fab fa-github"></i> Code
-                            </a>
-                            <a href="#" class="button outline small">
-                                <i class="fas fa-external-link-alt"></i> Demo
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="contact-section">
-            <h2>Get In Touch</h2>
-            <div class="contact-card">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Contact Information</h3>
-                        <p>Feel free to reach out through any of these channels</p>
-                    </div>
-                    <div class="card-content">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <a href="mailto:abbasova.r@gmail.com">abbasova.r@gmail.com</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fab fa-github"></i>
-                            <a href="https://github.com/RenaAbbasova" target="_blank" rel="noopener noreferrer">github.com/RenaAbbasova</a>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fab fa-linkedin"></i>
-                            <a href="https://linkedin.com/in/rena" target="_blank" rel="noopener noreferrer">linkedin.com/in/rena</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>© <span id="current-year"></span> Rena Abbasova. All rights reserved.</p>
-            <div class="social-links">
-                <a href="https://github.com/RenaAbbasova" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://www.linkedin.com/in/rena" target="_blank" rel="noopener noreferrer">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="mailto:abbasova.r@gmail.com">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </div>
+      <div class="trow">
+        <div class="tyears">Mar 2025 — Jun 2025</div>
+        <div>
+          <p class="trole">Work Placement (400 hours)</p>
+          <p class="torg">Tracasa Instrumental — Government of Navarra</p>
+          <ul class="tlist">
+            <li>Completed right after the Albañiles Digitales program, on the team that later hired me full-time.</li>
+            <li>Learned Power Automate and the team's method for building RPA flows.</li>
+            <li>Programmed new RPA flows and modified existing ones.</li>
+            <li>Maintained existing flows and handled incidents.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">TOOLS</span><span class="tag">Power Automate</span><span class="tag">RPA</span></div>
         </div>
-    </footer>
-    
-    <script src="script.js"></script>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">Sep 2024 — Feb 2025</div>
+        <div>
+          <p class="trole">Albañiles Digitales – Software Builders<span class="role-chip">TRAINING</span></p>
+          <p class="torg">Servicio Navarro de Empleo – Nafar Lansare — 605-hour program</p>
+          <ul class="tlist">
+            <li>605 hours in Spanish, blended format (9 Sep 2024 – 28 Feb 2025), run with Veridas and the Servicio Navarro de Empleo.</li>
+            <li>Followed by the 400-hour work placement at Tracasa.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">SYLLABUS</span><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">HTML/CSS</span><span class="tag">Databases</span><span class="tag">Networking</span><span class="tag">AWS</span><span class="tag">Agile</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">Sep 2022 — Jul 2024</div>
+        <div>
+          <p class="trole">Training &amp; Project Internship: Data Science &amp; Generative AI<span class="role-chip">TRAINING · INTERNSHIP</span></p>
+          <p class="torg">Learnbay — nearly two-year program</p>
+          <ul class="tlist">
+            <li>Advanced Data Science &amp; AI program with domain specialization: Python (40+ h), statistics and machine learning (70+ h), deep learning, NLP and deployment foundations (48+ h), and SQL, Tableau, Power BI, MongoDB, big data and R (70+ h).</li>
+            <li>Project-based program (capstone projects and 15+ real-time projects). I built machine learning projects throughout, applying ML and statistical methods and building and evaluating classification and regression models.</li>
+            <li>Presented results with Tableau and Power BI — dashboards published on my <a class="inline-link" href="https://public.tableau.com/app/profile/rena7178" target="_blank" rel="noopener">Tableau Public profile</a>.</li>
+            <li>Earned the IBM Skills Network (Learnvista) Data Science and AI Certificate in May 2024: Python for Data Science, Data Science Tools, Machine Learning with Python, Data Science Methodology.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">SYLLABUS</span><span class="tag">Python</span><span class="tag">Statistics</span><span class="tag">Machine Learning</span><span class="tag">Deep Learning</span><span class="tag">NLP</span><span class="tag">Deployment</span><span class="tag">SQL</span><span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">MongoDB</span><span class="tag">Big Data</span><span class="tag">R</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">May 2022 — Jul 2022</div>
+        <div>
+          <p class="trole">Career Transition: Data Analytics Bootcamp &amp; Self-Directed Study<span class="role-chip">HANDS-ON TRAINING</span></p>
+          <p class="torg">Upgrade Hub — Data Analytics Bootcamp</p>
+          <ul class="tlist">
+            <li>After leaving finance in December 2021, retrained in data analysis: self-directed study and projects, then a very hands-on bootcamp.</li>
+            <li>Four modules: data collection and preparation (Python/Pandas, SQL, Git, exploratory data analysis), data analysis and visualization (including data storytelling), and an introduction to machine learning with scikit-learn.</li>
+            <li>Projects: a data storytelling analysis of Airbnb listings in Istanbul, and the final project on autism screening data, later rebuilt to show why its 100% accuracy was not a finding (the label is the questionnaire's own cut-off).</li>
+            <li>Led straight into the Learnbay program in September 2022.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">USED</span><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">Plotly</span><span class="tag">Scikit-learn</span></div>
+          <div class="tags"><span class="tags-label">SYLLABUS</span><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">SQL</span><span class="tag">Git</span><span class="tag">Exploratory data analysis</span><span class="tag">Statistics</span><span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">Data Studio</span><span class="tag">Scikit-learn</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">Mar 2018 — Dec 2021</div>
+        <div>
+          <p class="trole">Finance Associate — Financial Data Analysis</p>
+          <p class="torg">Gulf Hotel Company — Doha, Qatar</p>
+          <ul class="tlist">
+            <li>Worked across the finance function with a focus on financial data analysis.</li>
+            <li>Built regression-based pricing models (regression trees, ordinary least squares) and supported price optimization, including pricing for the opening of the hotel's new burger bar.</li>
+            <li>Designed RFM (Recency, Frequency, Monetary) transformations from raw transaction data for customer segmentation.</li>
+            <li>Forecast cash flow from customer payment behavior to plan supplier payments.</li>
+            <li>Applied probability scoring to target campaigns, reducing marketing costs and improving ROI.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">METHODS</span><span class="tag">Regression</span><span class="tag">Price optimization</span><span class="tag">RFM analysis</span><span class="tag">Cash flow forecasting</span><span class="tag">Aging analysis</span><span class="tag">Probability scoring</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">Dec 2018 — Dec 2020</div>
+        <div>
+          <p class="trole">Finance Department</p>
+          <p class="torg">InterContinental Doha — Doha, Qatar</p>
+          <ul class="tlist">
+            <li>Worked across four positions in the Finance department, as recorded on the hotel's Certificate of Service, in parallel with the Gulf Hotel role.</li>
+            <li>General Accountant: bank reconciliations and general accounting records.</li>
+            <li>Accounts Payable: supplier invoices and payments. Purchasing: purchase orders and supplier coordination. Credit Department: monitoring customer accounts and outstanding balances.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">AREAS</span><span class="tag">Accounts Payable</span><span class="tag">Credit</span><span class="tag">Purchasing</span><span class="tag">General Accounting</span><span class="tag">Bank reconciliation</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="collaborative" class="section-pad tp-first tab-panel" data-tab="collaborative">
+  <div class="wrap">
+    <div class="eyebrow">// 03 — collaborative experience (volunteer)</div>
+    <h1 class="sec">Built with others, unpaid</h1>
+    <p class="lede" style="margin-top:0">Open-collaboration projects with <a href="https://www.omdena.com" target="_blank" rel="noopener" style="color:var(--teal); text-decoration:underline;">Omdena</a>, a global network of volunteer contributors — not employment, but real teamwork on real pipelines.</p>
+    <div class="timeline">
+
+      <div class="trow">
+        <div class="tyears">Jul 2026 — Sep 2026</div>
+        <div>
+          <p class="trole">Contributor, Data Governance &amp; Ingestion Team</p>
+          <p class="torg">TerraYield 2 — AI Analytics for Land Use (Omdena)</p>
+          <p class="tdesc">Designed and built 2 data quality validation suites in Python (30+ pytest unit tests) for satellite and climate data pipelines — catching a critical bug in the vegetation index (EVI) producing values up to 17M outside valid range, caused by an unguarded division in the satellite pipeline. Ran real satellite data extraction via Google Earth Engine, configuring service account authentication and resolving API quota limits, processing 500+ Sentinel-2 scenes across two agricultural regions (Illinois, Iowa).</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">pytest</span><span class="tag">Google Earth Engine</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">Mar 2025 — May 2025</div>
+        <div>
+          <p class="trole">ML Engineer, Backend &amp; Frontend</p>
+          <p class="torg">Sustainable Agriculture Chatbot — Omdena Local Chapter Challenge (3 months)</p>
+          <p class="tdesc">Part of a 3-month Omdena team that built a smart, context-aware RAG chatbot helping environmentally conscious farmers: it answers questions from a tailored knowledge base (a vectorized document collection, with Grok as the LLM) and gives user-aware responses. Worked as an ML Engineer on both sides of the app: the React frontend and the FastAPI backend, including document-ingestion APIs, connected through a Supabase database. Also set up the project folder structure so full development could start. Certificate of Achievement, May 2025.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">FastAPI</span><span class="tag">Supabase</span><span class="tag">Docker</span><span class="tag">RAG</span><span class="tag">Grok</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="section-pad tp-first tab-panel" data-tab="projects">
+  <div class="wrap">
+    <div class="eyebrow">// 04 — projects</div>
+    <h1 class="sec">What I've built</h1>
+    <h2 class="proj-subhead">Featured — personal projects</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>NavAgro — AI Analytics for Agricultural Land Use in Navarra</h3>
+          <span class="proj-badge badge-live">FEATURED</span>
+        </div>
+        <p>Personal research project combining Sentinel-2 imagery (Google Earth Engine), official crop-production statistics and land-use maps for the 7 agricultural regions of Navarra. Finding: between 2021 and 2023 the Nordoccidental region lost 78% of its dry-farmed herbaceous parcels (1,740 → 386) while forest land grew 58%, yet soft wheat production rose 9% — so not simple abandonment (2023 was a severe drought year). Honest benchmark: with only 28 training rows, NDVI alone does not yet beat the historical mean (R² 0.585 vs −0.189). Data engineering from day one: SHA-256 manifest for every raw file, missing values never fabricated, temporal train/test split.</p>
+        <div class="proj-tags"><span>Python</span><span>Google Earth Engine</span><span>Sentinel-2</span><span>GeoPandas</span><span>scikit-learn</span><span>Leaflet</span><span>Chart.js</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://renaabbasova.github.io/NavAgro/" target="_blank" rel="noopener">Live dashboard<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a><a class="proj-link" href="https://github.com/RenaAbbasova/NavAgro" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>EV Battery Data Pipeline</h3>
+          <span class="proj-badge badge-done">SYNTHETIC DATA</span>
+        </div>
+        <p>End-to-end pipeline for electric-vehicle battery telemetry, built on synthetic data from two simulated manufacturers (different timestamp formats, °F vs °C, inconsistent IDs, duplicates, impossible values). Raw → silver → gold data lake: invalid rows go to quarantine with the reason (nothing is silently dropped) and a quality gate stops the run if more than 15% is rejected. Daily time series per vehicle, a degradation trend, a 6-month forecast tested with a time-split backtest against a naive baseline, rule-based recommendations and a salted-hash anonymized dataset. Orchestrated with Prefect, served through a read-only FastAPI REST API (vehicle health, forecast, fleet summary, clear 422 / 404 / 503 errors) and covered by 100 automated tests. One run: 8,418 raw rows → 8,022 clean and 396 quarantined (4.7%), 24 vehicles. Because the data is synthetic, the forecast result confirms the pipeline works, not how real batteries behave.</p>
+        <div class="proj-tags"><span>Python</span><span>Pandas</span><span>Prefect</span><span>FastAPI</span><span>Time series</span><span>Data quality</span><span>pytest</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/battery-data-cleaning" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Fake News Classifier: what does the model really learn?</h3>
+          <span class="proj-badge badge-done">COMPLETE</span>
+        </div>
+        <p>A fake-news classifier on the ISOT dataset (38,644 articles after removing 6,252 repeated and 631 empty ones), built to find out what the model is actually reading. It reaches 98.6% accuracy, but a lookup of the subject column alone scores 100% and five writing-style numbers score 80%: it recognises publisher style and topic, not truth. Stress tests confirm it: accuracy falls to 94% over time and to 44% when every true US-politics article is held out of training. Reusable code with train and predict commands, 22 tests and the analysis saved in a notebook. The conclusion in the README: do not use it to decide what is fake.</p>
+        <div class="proj-tags"><span>Python</span><span>scikit-learn</span><span>TF-IDF</span><span>NLP</span><span>pytest</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/FakeNews_Detector" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+    </div>
+    <h2 class="proj-subhead">Data science — Learnbay program (2022–2024)</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Telecom Customer Churn Prediction</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Churn prediction on 4,250 telecom customers. The data is split first; scaling, SMOTE and the decision threshold use training data only. A baseline, logistic regression, random forest, XGBoost (with and without SMOTE) and a neural network are compared by cross-validated PR-AUC. Best model, XGBoost: on the untouched test set ROC-AUC 0.90 and PR-AUC 0.86 (a random guess scores 0.14), catching 74% of the customers who leave with 97% precision. SMOTE did not improve the ranking quality. The README also lists the mistakes found and fixed in the first version.</p>
+        <div class="proj-tags"><span>Scikit-learn</span><span>XGBoost</span><span>imbalanced-learn</span><span>Cross-validation</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Telecom-project" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Employee Attrition: a PyTorch network against simple models</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Predicting which employees leave, on a fictional IBM dataset (1,470 employees, 16% who leave). The first version's network scored 86.7% accuracy, exactly what answering "stays" gives, because it flagged nobody. Rebuilt with a split before preprocessing, a PyTorch network with a proper loss and early stopping, and metrics suited to a rare outcome: the network matches a logistic regression (ROC-AUC 0.83 in cross-validation) without beating it, and contacting the 20% highest-risk employees reaches 57% of the leavers on the test set.</p>
+        <div class="proj-tags"><span>PyTorch</span><span>scikit-learn</span><span>Model evaluation</span><span>Imbalanced data</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Employee_Attrition_Prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Tesla Stock Price Forecasting</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Next-day close forecasting for Tesla (2010–2022): ARIMA and an LSTM compared with the naive "tomorrow = today" forecast on 592 held-out days. Result: no model beats the naive forecast (RMSE 24.86–24.88, differences not significant), and the data explains why: daily returns have no autocorrelation. The README also documents the target leakage found and fixed in the first version.</p>
+        <div class="proj-tags"><span>ARIMA</span><span>LSTM</span><span>statsmodels</span><span>Keras</span><span>Time series</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Tesla_stock_prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Price Elasticity and Pricing</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Price elasticity of demand on 52 products and 676 product-months (Retail Price Optimization dataset). Comparing each product with itself over time gives an elasticity of about -2.4 (a 1% higher price goes with 2.4% fewer units), while pooling all products wrongly gives -0.13. Product-level estimates turn out too noisy to set prices (typical interval about 12 points, some with the wrong sign), the price does not improve next-month predictions, and no optimal price can be computed without unit costs. A rebuilt version of my first analysis; the README explains what changed.</p>
+        <div class="proj-tags"><span>statsmodels</span><span>Fixed effects</span><span>Econometrics</span><span>Python</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Price_optimization" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>E-commerce Customer Segmentation &amp; Recommendation</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Notebook on 541,909 invoice lines from an online retailer: sales trends by weekday, month and hour; customers scored by recency, frequency and monetary value (RFM) and grouped with K-Means; and a recommender based on the similarity between customers. The README is explicit about its limits: K-Means runs on a single combined score, so the groups reflect how that score is distributed, and the recommender is shown on one example without a held-out evaluation. A rebuild is planned.</p>
+        <div class="proj-tags"><span>RFM</span><span>K-Means</span><span>Recommender systems</span><span>Pandas</span><span>scikit-learn</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Ecommerce_Customer_Segmentation" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Flight Ticket Prices: how much do models add?</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>300,153 flight bookings (EaseMyTrip, 2022). The class alone explains 88% of the price, so a high R-squared is easy: the analysis looks at the error in rupees and at the R-squared inside each class. Linear models turn out worse than a lookup table of class + airline + route + stops (error 4,633 against 3,330 rupees), while gradient boosting cuts the error by about 40% for known flights and 27% for flights it has never seen (2,660 rupees). A random split flatters the model: for unseen flights the error is 34% higher. Rebuilt from my first version; the README explains what changed.</p>
+        <div class="proj-tags"><span>scikit-learn</span><span>Gradient boosting</span><span>Model evaluation</span><span>Pandas</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Flight_Price_Prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+    </div>
+    <h2 class="proj-subhead">Web development — Albañiles Digitales (2024–2025)</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>API Plugin Generator: reviewed and hardened</h3>
+          <span class="proj-badge badge-done">ALBAÑILES</span>
+        </div>
+        <p>A Next.js tool that generates a WordPress plugin, a Chrome extension or a Firefox extension from a form. I reviewed my first version as if it were someone else's and reproduced three real flaws against the running code: the server fetched an internal service and returned its secret, text typed in the form became executable code in the generated plugin, and the plugin name could delete a file outside its folder. I fixed them and covered each with tests that run the generated PHP with the real interpreter: 162 tests, valid Chrome manifests and 0 vulnerabilities in the production dependencies (the first version had 6, one critical).</p>
+        <div class="proj-tags"><span>Next.js</span><span>TypeScript</span><span>Security</span><span>Testing</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Api_Plugin_Generator" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Data API Fetcher: a Chrome extension that works offline</h3>
+          <span class="proj-badge badge-done">ALBAÑILES</span>
+        </div>
+        <p>A Manifest V3 extension that shows data from three public APIs. I reviewed my first version by loading it in a real Chromium, with a local server standing in for the APIs, and measured its flaws: losing the connection destroyed the saved data (although the README promised offline use), every popup opening made four requests and took over three seconds, API text was injected as HTML, and the refresh alarm restarted every time the service worker woke up. The rebuilt version keeps the last good data, opens instantly, draws text safely, asks for only the three API paths and has 67 tests; the published code passes the same 13 real-browser checks.</p>
+        <div class="proj-tags"><span>Chrome Extension</span><span>JavaScript</span><span>Manifest V3</span><span>Testing</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Data_Api_Fetcher_Extension" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Actor Agency Website: accessible and responsive</h3>
+          <span class="proj-badge badge-done">ALBAÑILES</span>
+        </div>
+        <p>Rebuilt from my HTML &amp; CSS course final project: a website for a fictional actor-representation agency in plain HTML, CSS and JavaScript. It weighs 88 KB (the original folder was 27 MB), shows no violations in an automated axe-core accessibility check (WCAG 2.1 AA, 9 pages, light and dark themes) and fits any screen from 320 to 1440 px. All profiles and illustrations are fictional and original.</p>
+        <div class="proj-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Accessibility</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://renaabbasova.github.io/Actor_Agency_Website/" target="_blank" rel="noopener">Live demo<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a><a class="proj-link" href="https://github.com/RenaAbbasova/Actor_Agency_Website" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+    </div>
+    <h2 class="proj-subhead">Data analysis — Upgrade Hub bootcamp (2022)</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Autism Screening Data: why 100% accuracy is not a finding</h3>
+          <span class="proj-badge badge-done">BOOTCAMP</span>
+        </div>
+        <p>Final project of the bootcamp, rebuilt as an exercise in evaluating a model honestly. The 100% accuracy of the first version was not a result: for the 912 children with 2 or more positive answers, the label is exactly the questionnaire's own cut-off ("4 or more of 10"), and the inputs included that questionnaire. Even without any questionnaire the models reach 0.81-0.83, mostly thanks to the spelling of the ethnicity column, which identifies the source of each row (the file looks assembled from several sources, with a third of the rows repeated). The README documents what was found and why this dataset cannot support claims about predicting autism. Not a clinical tool.</p>
+        <div class="proj-tags"><span>scikit-learn</span><span>Data quality</span><span>Model evaluation</span><span>Pandas</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Autism_Traits_Prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Airbnb Istanbul — Data Storytelling</h3>
+          <span class="proj-badge badge-done">BOOTCAMP</span>
+        </div>
+        <p>Exploratory analysis and data storytelling of Airbnb listings in Istanbul: review scores, property types and guest preferences.</p>
+        <div class="proj-tags"><span>Pandas</span><span>Plotly</span><span>Seaborn</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Data_Story_Telling" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="section-pad tp-first tab-panel" data-tab="skills">
+  <div class="wrap">
+    <div class="eyebrow">// 05 — skills</div>
+    <h1 class="sec">Toolkit</h1>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h2>// backend &amp; languages</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">SQL</span>
+          <span class="skill-pill">Node.js</span>
+          <span class="skill-pill">FastAPI</span>
+          <span class="skill-pill">Express</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h2>// data &amp; databases</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">SQL Server</span>
+          <span class="skill-pill">MongoDB</span>
+          <span class="skill-pill">Supabase</span>
+          <span class="skill-pill">Pandas</span>
+          <span class="skill-pill">NumPy</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h2>// machine learning</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">Scikit-learn</span>
+          <span class="skill-pill">TensorFlow</span>
+          <span class="skill-pill">Keras</span>
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">XGBoost</span>
+          <span class="skill-pill">RAG</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h2>// automation &amp; tools</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">Power Automate</span>
+          <span class="skill-pill">Tableau</span>
+          <span class="skill-pill">Power BI</span>
+          <span class="skill-pill">Git / GitHub</span>
+          <span class="skill-pill">Docker</span>
+        </div>
+      </div>
+      <div class="skill-group studied">
+        <h2>// studied — degree &amp; courses</h2>
+        <p class="skill-note">Learned in my degree (UOC) and in the Albañiles Digitales program; not used in my published projects.</p>
+        <div class="skill-pills">
+          <span class="skill-pill">C++</span>
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">MySQL</span>
+          <span class="skill-pill">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad border-t tab-panel" data-tab="skills">
+  <div class="wrap">
+    <div class="eyebrow">// 06 — education</div>
+    <h2>Education &amp; certifications</h2>
+    <div class="edu-list">
+      <div class="edu-row">
+        <div>
+          <div class="deg">B.S. Computer Engineering</div>
+          <div class="org">UOC — Universitat Oberta de Catalunya</div>
+        </div>
+        <div class="yr">IN PROGRESS</div>
+      </div>
+      <div class="edu-row">
+        <div>
+          <div class="deg">Business Administration &amp; Management — Título Propio</div>
+          <div class="org">EAE Business School</div>
+        </div>
+        <div class="yr">2009 — 2012</div>
+      </div>
+      <div class="edu-row">
+        <div>
+          <div class="deg">Accounting, Faculty of Economics</div>
+          <div class="org">Perm State University</div>
+        </div>
+        <div class="yr">2000 — 2005</div>
+      </div>
+    </div>
+    <div class="cert-list">
+      <div class="cert-row"><span class="mark">✓</span>Data Analytics — Upgrade Hub Bootcamp (May – Jul 2022)</div>
+      <div class="cert-row"><span class="mark">✓</span>Advanced Data Science &amp; Generative AI Certification — Learnbay (nearly two-year program)</div>
+      <div class="cert-row"><span class="mark">✓</span>Data Science and AI Certificate — IBM Skills Network / Learnvista (May 2024)</div>
+      <div class="cert-row"><span class="mark">✓</span>Albañiles Digitales – Software Builders (605h, Sep 2024 – Feb 2025) — Veridas / Servicio Navarro de Empleo</div>
+      <div class="cert-row"><span class="mark">✓</span>Omdena Local Chapter Challenge — Sustainable Agriculture Chatbot, Certificate of Achievement as ML Engineer (May 2025)</div>
+      <div class="cert-row"><span class="mark">✓</span>Crash Course on Python — Google</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="section-pad tp-first tab-panel" data-tab="contact">
+  <div class="wrap contact-wrap">
+    <div class="eyebrow">// 07 — contact</div>
+    <h1 class="sec">Let's talk about what you're building.</h1>
+    <p class="lede" style="margin-top:0">
+      Open to roles in data, backend development, or automation — Pamplona or remote.
+    </p>
+    <div class="contact-links">
+      <button class="clink" data-cv hidden type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg> Download CV (PDF)</button>
+      <a class="clink" href="mailto:abbasova.r@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+        abbasova.r@gmail.com
+      </a>
+      <a class="clink" href="https://github.com/RenaAbbasova" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a class="clink" href="https://www.linkedin.com/in/rena" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a class="clink" href="https://public.tableau.com/app/profile/rena7178" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>
+        Tableau Public
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="wrap">
+    <p>RENA ABBASOVA — PAMPLONA, ES</p>
+  </div>
+</footer>
+</div>
+
+<div class="site" id="site-es" lang="es">
+<nav>
+  <div class="wrap">
+    <div class="brand">RENA ABBASOVA<span class="dot">.</span></div>
+    <div class="navlinks" role="tablist">
+      <button role="tab" data-tab="home" aria-selected="false">Inicio</button>
+      <button role="tab" data-tab="experience" aria-selected="false">Experiencia</button>
+      <button role="tab" data-tab="collaborative" aria-selected="false">Colaborativo</button>
+      <button role="tab" data-tab="projects" aria-selected="false">Proyectos</button>
+      <button role="tab" data-tab="skills" aria-selected="false">Habilidades</button>
+      <button role="tab" data-tab="contact" aria-selected="false">Contacto</button>
+    </div>
+    <div class="lang-switch" role="group" aria-label="Idioma">
+      <button type="button" data-setlang="en" aria-pressed="false">EN</button>
+      <button type="button" data-setlang="es" aria-pressed="true">ES</button>
+    </div>
+  </div>
+</nav>
+<main id="main-es">
+
+<section class="hero tab-panel" data-tab="home">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="kicker"><span class="pulse"></span><span class="mono">PAMPLONA, ESPAÑA — ABIERTA A NUEVAS OPORTUNIDADES</span></div>
+    <h1>Convierto cosas crudas y desconectadas en sistemas que funcionan.</h1>
+    <p class="lede">
+      <span class="lede-line">Una hoja de cálculo con transacciones inconsistentes. Flujos de automatización sin documentar. Un dataset en el que nadie confía todavía.</span>
+      <span class="lede-line">Después de casi cuatro años en finanzas, siempre empiezo por la misma pregunta: ¿se puede confiar en esto?</span>
+      <span class="lede-line">A partir de ahí, ordeno, valido y construyo soluciones fiables y mantenibles en <strong>ciencia de datos, desarrollo de software y automatización de procesos</strong>.</span>
+    </p>
+    <div class="threads">
+      <div class="thread-chip"><span class="sw" style="background:var(--teal)"></span>Ciencia de Datos y Analítica</div>
+      <div class="thread-chip"><span class="sw" style="background:var(--amber)"></span>Desarrollo de Software</div>
+      <div class="thread-chip"><span class="sw" style="background:#9E8CF2"></span>Automatización de Procesos</div>
+    </div>
+
+    <div class="cta-row">
+      <button class="cta primary" data-goto="projects">Ver mis proyectos</button>
+      <button class="cta" data-goto="contact">Contactar</button>
+      <button class="cta" data-cv hidden type="button">Descargar CV (PDF)</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-n">~4 años</div><div class="stat-l">en finanzas · Gulf Hotel e InterContinental, 2018–2021</div></div>
+      <div class="stat"><div class="stat-n">~2 años</div><div class="stat-l">de formación práctica en data science · Learnbay, 2022–2024</div></div>
+      <div class="stat"><div class="stat-n">1+ año</div><div class="stat-l">automatización y desarrollo · Gobierno de Navarra</div></div>
+      <div class="stat"><div class="stat-n">500+</div><div class="stat-l">escenas Sentinel-2 procesadas · TerraYield</div></div>
+      <div class="stat"><div class="stat-n">30+</div><div class="stat-l">pruebas unitarias en pipelines de datos satelitales y climáticos</div></div>
+    </div>
+
+    <div class="flow-wrap">
+      <svg viewBox="-20 0 1040 140" preserveAspectRatio="xMidYMid meet">
+        <line x1="40" y1="70" x2="960" y2="70" stroke="#2A3240" stroke-width="1.5"/>
+        <line x1="40" y1="70" x2="960" y2="70" stroke="#4FB8A8" stroke-width="1.5" class="flow-dash" opacity="0.8"/>
+        <g>
+          <circle cx="60" cy="70" r="5" fill="#11151C" stroke="#4FB8A8" stroke-width="2"/>
+          <text x="60" y="108" fill="#8B93A1" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">datos crudos</text>
+        </g>
+        <g>
+          <circle cx="320" cy="70" r="5" fill="#11151C" stroke="#E8A33D" stroke-width="2"/>
+          <text x="320" y="108" fill="#8B93A1" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">validar</text>
+        </g>
+        <g>
+          <circle cx="580" cy="70" r="5" fill="#11151C" stroke="#9E8CF2" stroke-width="2"/>
+          <text x="580" y="108" fill="#8B93A1" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">automatizar</text>
+        </g>
+        <g>
+          <circle cx="940" cy="70" r="6" fill="#4FB8A8"/>
+          <text x="940" y="108" fill="#E7E9EC" font-family="JetBrains Mono, monospace" font-size="11" text-anchor="middle">sistema funcionando</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section id="es-approach" class="section-pad border-t tab-panel" data-tab="home">
+  <div class="wrap">
+    <div class="eyebrow">// 01 — enfoque</div>
+    <h2>Tres hilos, un mismo hábito.</h2>
+    <div class="approach-grid">
+      <div class="approach-card">
+        <span class="num">01</span>
+        <h3>Ciencia de Datos y Analítica</h3>
+        <p>Casi cuatro años en finanzas me enseñaron a preguntar cuánto vale realmente un dato antes de tocarlo. Llevé eso al machine learning, la estadística y el trabajo con pipelines — modelos de precios, predicción de abandono de clientes, y más recientemente, gobernar un dataset multi-fuente desde cero.</p>
+      </div>
+      <div class="approach-card">
+        <span class="num">02</span>
+        <h3>Desarrollo de Software</h3>
+        <p>Construyo el backend que hace que los datos sean utilizables: APIs con FastAPI y Node.js, formularios, y la lógica que los conecta. Construido en un programa de desarrollo de 605 horas, en equipos colaborativos de Omdena y en el trabajo.</p>
+      </div>
+      <div class="approach-card">
+        <span class="num">03</span>
+        <h3>Automatización de Procesos</h3>
+        <p>Más de un año automatizando flujos de trabajo gubernamentales con Power Automate me enseñó que la mayoría de los problemas de "automatización" son en realidad problemas de datos disfrazados — y la solución suele ser la misma.</p>
+      </div>
+    </div>
+    <p class="pquote">Mi perfil no encaja en una única etiqueta. Trabajo en la intersección entre datos, software y automatización, construyendo sistemas que convierten información y procesos poco fiables en soluciones utilizables y mantenibles.</p>
+  </div>
+</section>
+
+<section id="es-experience" class="section-pad tp-first tab-panel" data-tab="experience">
+  <div class="wrap">
+    <div class="eyebrow">// 02 — experiencia</div>
+    <h1 class="sec">Dónde se construyó esto</h1>
+    <div class="timeline">
+      <div class="trow">
+        <div class="tyears">ago 2025 — ago 2026</div>
+        <div>
+          <p class="trole">Desarrolladora de Software y Automatización</p>
+          <p class="torg">Tracasa Instrumental — Gobierno de Navarra</p>
+          <ul class="tlist">
+            <li>Automatizaciones de procesos para proyectos del Gobierno de Navarra con Power Automate Desktop, adaptadas a cada caso de negocio.</li>
+            <li>Un formulario HTML/JavaScript como entrada de cada flujo principal: los usuarios introducían ahí los datos y Power Automate los procesaba de principio a fin.</li>
+            <li>Diseño de una base de datos SQL que registra los metadatos de cada ejecución de flujo, con trazabilidad y analítica de rendimiento.</li>
+            <li>Extracción de datos con IA a partir de documentos de muchos tipos distintos.</li>
+            <li>Módulos reutilizables compartidos entre proyectos; depuración y optimización de flujos, con planes de pruebas.</li>
+            <li>Documentación del desarrollo y gestión de tareas con Kanban.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">HERRAMIENTAS</span><span class="tag">Power Automate Desktop</span><span class="tag">HTML</span><span class="tag">JavaScript</span><span class="tag">SQL</span><span class="tag">SQL Server</span><span class="tag">Procesamiento de documentos con IA</span><span class="tag">Kanban</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">mar 2025 — jun 2025</div>
+        <div>
+          <p class="trole">Prácticas profesionales (400 horas)</p>
+          <p class="torg">Tracasa Instrumental — Gobierno de Navarra</p>
+          <ul class="tlist">
+            <li>Realizadas justo después del programa Albañiles Digitales, en el equipo donde después me contrataron a jornada completa.</li>
+            <li>Aprendizaje de Power Automate y del método de trabajo del equipo para crear flujos RPA.</li>
+            <li>Programación de flujos RPA nuevos y modificación de flujos existentes.</li>
+            <li>Mantenimiento de flujos existentes y atención de incidencias.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">HERRAMIENTAS</span><span class="tag">Power Automate</span><span class="tag">RPA</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">sep 2024 — feb 2025</div>
+        <div>
+          <p class="trole">Albañiles Digitales – Software Builders<span class="role-chip">FORMACIÓN</span></p>
+          <p class="torg">Servicio Navarro de Empleo – Nafar Lansare — programa de 605 horas</p>
+          <ul class="tlist">
+            <li>605 horas en castellano y modalidad mixta (9 sep 2024 – 28 feb 2025), con Veridas y el Servicio Navarro de Empleo.</li>
+            <li>Seguido de las 400 horas de prácticas en Tracasa.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">TEMARIO</span><span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">HTML/CSS</span><span class="tag">Bases de datos</span><span class="tag">Redes</span><span class="tag">AWS</span><span class="tag">Agile</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">sep 2022 — jul 2024</div>
+        <div>
+          <p class="trole">Formación y prácticas en proyectos: Data Science e IA Generativa<span class="role-chip">FORMACIÓN · PRÁCTICAS</span></p>
+          <p class="torg">Learnbay — programa de casi dos años</p>
+          <ul class="tlist">
+            <li>Programa de Data Science e IA avanzado con especialización por dominio: Python (40+ h), estadística y machine learning (70+ h), bases de deep learning, NLP y despliegue (48+ h), y SQL, Tableau, Power BI, MongoDB, big data y R (70+ h).</li>
+            <li>Programa basado en proyectos (proyectos capstone y más de 15 proyectos en tiempo real). Desarrollé proyectos de machine learning de forma continua, aplicando ML y métodos estadísticos y construyendo y evaluando modelos de clasificación y regresión.</li>
+            <li>Presentación de resultados con Tableau y Power BI — dashboards publicados en mi <a class="inline-link" href="https://public.tableau.com/app/profile/rena7178" target="_blank" rel="noopener">perfil de Tableau Public</a>.</li>
+            <li>Certificado de Data Science e IA de IBM Skills Network (Learnvista), mayo 2024: Python for Data Science, Data Science Tools, Machine Learning with Python, Data Science Methodology.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">TEMARIO</span><span class="tag">Python</span><span class="tag">Estadística</span><span class="tag">Machine Learning</span><span class="tag">Deep Learning</span><span class="tag">NLP</span><span class="tag">Despliegue</span><span class="tag">SQL</span><span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">MongoDB</span><span class="tag">Big Data</span><span class="tag">R</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">may 2022 — jul 2022</div>
+        <div>
+          <p class="trole">Transición profesional: Bootcamp de Data Analytics y estudio autodidacta<span class="role-chip">FORMACIÓN PRÁCTICA</span></p>
+          <p class="torg">Upgrade Hub — Bootcamp de Data Analytics</p>
+          <ul class="tlist">
+            <li>Tras dejar finanzas en diciembre de 2021, me reciclé en análisis de datos: estudio autodidacta y proyectos, y después un bootcamp muy práctico.</li>
+            <li>Cuatro módulos: recopilación y preparación de datos (Python/Pandas, SQL, Git, análisis exploratorio), análisis y visualización de datos (con data storytelling) e introducción al machine learning con scikit-learn.</li>
+            <li>Proyectos: un análisis con data storytelling de anuncios de Airbnb en Estambul y el proyecto final sobre datos de cribado de autismo, rehecho después para mostrar por qué su 100% de acierto no era un resultado (la etiqueta es el punto de corte del propio cuestionario).</li>
+            <li>Enlazó directamente con el programa de Learnbay en septiembre de 2022.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">USADO</span><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Matplotlib</span><span class="tag">Seaborn</span><span class="tag">Plotly</span><span class="tag">Scikit-learn</span></div>
+          <div class="tags"><span class="tags-label">TEMARIO</span><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">SQL</span><span class="tag">Git</span><span class="tag">Análisis exploratorio</span><span class="tag">Estadística</span><span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">Data Studio</span><span class="tag">Scikit-learn</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">mar 2018 — dic 2021</div>
+        <div>
+          <p class="trole">Finance Associate — Análisis de Datos Financieros</p>
+          <p class="torg">Gulf Hotel Company — Doha, Qatar</p>
+          <ul class="tlist">
+            <li>Trabajo en toda la función de finanzas con foco en el análisis de datos financieros.</li>
+            <li>Modelos de precios basados en regresión (árboles de regresión, mínimos cuadrados ordinarios) y apoyo a la optimización de precios, incluido el trabajo de precios para la apertura del nuevo bar de hamburguesas del hotel.</li>
+            <li>Transformaciones RFM (Recencia, Frecuencia, Monetario) a partir de transacciones brutas para segmentar clientes.</li>
+            <li>Previsión de flujo de caja a partir del comportamiento de pago de los clientes para planificar pagos a proveedores.</li>
+            <li>Scoring de probabilidad para dirigir campañas, reduciendo costes de marketing y mejorando el ROI.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">MÉTODOS</span><span class="tag">Regresión</span><span class="tag">Optimización de precios</span><span class="tag">Análisis RFM</span><span class="tag">Previsión de flujo de caja</span><span class="tag">Análisis de antigüedad (aging)</span><span class="tag">Scoring de probabilidad</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">dic 2018 — dic 2020</div>
+        <div>
+          <p class="trole">Departamento de Finanzas</p>
+          <p class="torg">InterContinental Doha — Doha, Qatar</p>
+          <ul class="tlist">
+            <li>Trabajo en cuatro puestos del departamento de Finanzas, según consta en el Certificate of Service del hotel, a la vez que mi puesto en Gulf Hotel.</li>
+            <li>Contable general: conciliaciones bancarias y registros contables generales.</li>
+            <li>Cuentas por pagar: facturas y pagos a proveedores. Compras: órdenes de compra y coordinación con proveedores. Departamento de Crédito: seguimiento de cuentas de clientes y saldos pendientes.</li>
+          </ul>
+          <div class="tags"><span class="tags-label">ÁREAS</span><span class="tag">Cuentas por pagar</span><span class="tag">Crédito</span><span class="tag">Compras</span><span class="tag">Contabilidad general</span><span class="tag">Conciliación bancaria</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="es-collaborative" class="section-pad tp-first tab-panel" data-tab="collaborative">
+  <div class="wrap">
+    <div class="eyebrow">// 03 — experiencia colaborativa (voluntaria)</div>
+    <h1 class="sec">Construido con otros, sin remuneración</h1>
+    <p class="lede" style="margin-top:0">Proyectos de colaboración abierta con <a href="https://www.omdena.com" target="_blank" rel="noopener" style="color:var(--teal); text-decoration:underline;">Omdena</a>, una red global de colaboradores voluntarios — no es un empleo, pero sí trabajo en equipo real sobre pipelines reales.</p>
+    <div class="timeline">
+
+      <div class="trow">
+        <div class="tyears">jul 2026 — sep 2026</div>
+        <div>
+          <p class="trole">Colaboradora, Equipo de Gobernanza de Datos e Ingestión</p>
+          <p class="torg">TerraYield 2 — Analítica de IA para Uso del Suelo (Omdena)</p>
+          <p class="tdesc">Diseñé y construí 2 suites de validación de calidad de datos en Python (30+ pruebas unitarias en pytest) para pipelines de datos satelitales y climáticos, detectando un bug crítico en el índice de vegetación (EVI) que producía valores de hasta 17M fuera del rango válido, causado por una división sin protección en el pipeline satelital. Ejecuté extracción de datos satelitales reales vía Google Earth Engine, configurando autenticación de cuenta de servicio y resolviendo límites de cuota de la API, procesando 500+ escenas Sentinel-2 en dos regiones agrícolas (Illinois, Iowa).</p>
+          <div class="tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">pytest</span><span class="tag">Google Earth Engine</span></div>
+        </div>
+      </div>
+
+      <div class="trow">
+        <div class="tyears">mar 2025 — may 2025</div>
+        <div>
+          <p class="trole">ML Engineer, Backend y Frontend</p>
+          <p class="torg">Chatbot de Agricultura Sostenible — Local Chapter Challenge de Omdena (3 meses)</p>
+          <p class="tdesc">Parte de un equipo de Omdena de 3 meses que construyó un chatbot RAG inteligente y consciente del contexto para agricultores comprometidos con el medio ambiente: responde preguntas con una base de conocimiento a medida (una colección de documentos vectorizada, con Grok como LLM) y respuestas adaptadas al usuario. Trabajé como ML Engineer en las dos partes de la aplicación: el frontend en React y el backend en FastAPI, incluidas las APIs de ingesta de documentos, conectados mediante una base de datos Supabase. También creé la estructura de carpetas del proyecto para poder empezar el desarrollo completo. Certificado de logro, mayo 2025.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">FastAPI</span><span class="tag">Supabase</span><span class="tag">Docker</span><span class="tag">RAG</span><span class="tag">Grok</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="es-projects" class="section-pad tp-first tab-panel" data-tab="projects">
+  <div class="wrap">
+    <div class="eyebrow">// 04 — proyectos</div>
+    <h1 class="sec">Lo que he construido</h1>
+    <h2 class="proj-subhead">Destacados — proyectos personales</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>NavAgro — Analítica de IA para el uso agrícola del suelo en Navarra</h3>
+          <span class="proj-badge badge-live">DESTACADO</span>
+        </div>
+        <p>Proyecto personal de investigación que combina imágenes Sentinel-2 (Google Earth Engine), estadísticas oficiales de producción agrícola y cartografía de uso del suelo de las 7 comarcas agrarias de Navarra. Hallazgo: entre 2021 y 2023 la comarca Nordoccidental perdió el 78% de sus parcelas de cultivo herbáceo de secano (1.740 → 386) mientras el terreno forestal crecía un 58%, pero la producción de trigo blando subió un 9%: no es un simple abandono (2023 fue un año de sequía severa). Benchmark honesto: con solo 28 filas de entrenamiento, el NDVI por sí solo todavía no supera a la media histórica (R² 0,585 frente a −0,189). Ingeniería de datos desde el primer día: manifiesto SHA-256 de cada archivo, sin fabricar valores faltantes y división temporal de entrenamiento y prueba.</p>
+        <div class="proj-tags"><span>Python</span><span>Google Earth Engine</span><span>Sentinel-2</span><span>GeoPandas</span><span>scikit-learn</span><span>Leaflet</span><span>Chart.js</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://renaabbasova.github.io/NavAgro/" target="_blank" rel="noopener">Dashboard en vivo<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a><a class="proj-link" href="https://github.com/RenaAbbasova/NavAgro" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Pipeline de datos de baterías de VE</h3>
+          <span class="proj-badge badge-done">DATOS SINTÉTICOS</span>
+        </div>
+        <p>Pipeline de extremo a extremo para telemetría de baterías de vehículos eléctricos, construido con datos sintéticos de dos fabricantes simulados (formatos de fecha distintos, °F frente a °C, IDs inconsistentes, duplicados, valores imposibles). Data lake raw → silver → gold: las filas inválidas van a cuarentena con su motivo (nada se descarta en silencio) y una puerta de calidad detiene la ejecución si se rechaza más del 15%. Serie temporal diaria por vehículo, tendencia de degradación, previsión a 6 meses probada con un backtest por tiempo frente a una referencia ingenua, recomendaciones con reglas y un dataset anonimizado con hash con sal. Orquestado con Prefect, servido mediante una API REST de solo lectura con FastAPI (salud del vehículo, previsión, resumen de flota, errores claros 422 / 404 / 503) y cubierto por 100 tests automáticos. Una ejecución: 8.418 filas crudas → 8.022 limpias y 396 en cuarentena (4,7%), 24 vehículos. Como los datos son sintéticos, el resultado de la previsión confirma que el pipeline funciona, no cómo se comportan las baterías reales.</p>
+        <div class="proj-tags"><span>Python</span><span>Pandas</span><span>Prefect</span><span>FastAPI</span><span>Series temporales</span><span>Calidad de datos</span><span>pytest</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/battery-data-cleaning" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Clasificador de noticias falsas: ¿qué aprende realmente el modelo?</h3>
+          <span class="proj-badge badge-done">COMPLETO</span>
+        </div>
+        <p>Un clasificador de noticias falsas sobre el dataset ISOT (38.644 artículos tras quitar 6.252 repetidos y 631 vacíos), construido para averiguar qué está leyendo realmente el modelo. Alcanza un 98,6% de acierto, pero una simple tabla con la columna de tema ya da un 100% y cinco números de estilo de escritura dan un 80%: reconoce el estilo del medio y el tema, no la veracidad. Las pruebas de estrés lo confirman: el acierto baja al 94% con el tiempo y al 44% cuando se retiran del entrenamiento todos los artículos verdaderos de política de EE. UU. Código reutilizable con comandos de entrenamiento y predicción, 22 tests y el análisis guardado en un cuaderno. La conclusión del README: no usarlo para decidir qué es falso.</p>
+        <div class="proj-tags"><span>Python</span><span>scikit-learn</span><span>TF-IDF</span><span>NLP</span><span>pytest</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/FakeNews_Detector" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+    </div>
+    <h2 class="proj-subhead">Ciencia de datos — programa de Learnbay (2022–2024)</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Predicción de abandono de clientes (Telecom)</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Predicción de abandono en 4.250 clientes de una telecom. Los datos se dividen primero; el escalado, SMOTE y el umbral de decisión usan solo datos de entrenamiento. Se comparan una referencia, regresión logística, random forest, XGBoost (con y sin SMOTE) y una red neuronal por PR-AUC con validación cruzada. Mejor modelo, XGBoost: en el conjunto de prueba intacto ROC-AUC 0,90 y PR-AUC 0,86 (una conjetura al azar da 0,14), detectando al 74% de los clientes que se van con un 97% de precisión. SMOTE no mejoró la calidad del ranking. El README también recoge los errores encontrados y corregidos de la primera versión.</p>
+        <div class="proj-tags"><span>Scikit-learn</span><span>XGBoost</span><span>imbalanced-learn</span><span>Validación cruzada</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Telecom-project" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Abandono de empleados: una red de PyTorch frente a modelos simples</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Predicción de qué empleados se van, sobre un dataset ficticio de IBM (1.470 empleados, 16% que se van). La red de la primera versión sacaba un 86,7% de acierto, exactamente lo que da responder "se queda", porque no marcaba a nadie. Rehecho con la división antes del preprocesado, una red de PyTorch con una pérdida correcta y parada temprana, y métricas adecuadas a un resultado raro: la red iguala a una regresión logística (ROC-AUC 0,83 en validación cruzada) sin superarla, y contactar al 20% de empleados con más riesgo alcanza al 57% de los que se van en el test.</p>
+        <div class="proj-tags"><span>PyTorch</span><span>scikit-learn</span><span>Evaluación de modelos</span><span>Datos desbalanceados</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Employee_Attrition_Prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Previsión del precio de la acción de Tesla</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Previsión del cierre del día siguiente de Tesla (2010–2022): ARIMA y un LSTM comparados con la referencia ingenua "mañana = hoy" sobre 592 días reservados. Resultado: ningún modelo mejora a la referencia ingenua (RMSE 24,86–24,88, diferencias no significativas), y los datos lo explican: los rendimientos diarios no tienen autocorrelación. El README también documenta la fuga de la variable objetivo encontrada y corregida de la primera versión.</p>
+        <div class="proj-tags"><span>ARIMA</span><span>LSTM</span><span>statsmodels</span><span>Keras</span><span>Series temporales</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Tesla_stock_prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Elasticidad de precios y fijación de precios</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Elasticidad-precio de la demanda en 52 productos y 676 producto-mes (dataset Retail Price Optimization). Comparar cada producto consigo mismo a lo largo del tiempo da una elasticidad de unos −2,4 (un 1% más de precio va con un 2,4% menos de unidades), mientras que mezclar todos los productos da, erróneamente, −0,13. Las estimaciones por producto resultan demasiado ruidosas para fijar precios (intervalo típico de unos 12 puntos, algunas con signo contrario), el precio no mejora las predicciones del mes siguiente y no se puede calcular un precio óptimo sin costes unitarios. Versión rehecha de mi primer análisis; el README explica qué cambió.</p>
+        <div class="proj-tags"><span>statsmodels</span><span>Efectos fijos</span><span>Econometría</span><span>Python</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Price_optimization" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Segmentación de clientes y recomendación (e-commerce)</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>Cuaderno sobre 541.909 líneas de factura de una tienda online: tendencias de ventas por día de la semana, mes y hora; clientes puntuados por recencia, frecuencia y valor monetario (RFM) y agrupados con K-Means; y un recomendador basado en la similitud entre clientes. El README es explícito sobre sus límites: K-Means se ejecuta sobre una única puntuación combinada, así que los grupos reflejan cómo se reparte esa puntuación, y el recomendador se muestra con un ejemplo y sin evaluación con datos reservados. Está prevista una reconstrucción.</p>
+        <div class="proj-tags"><span>RFM</span><span>K-Means</span><span>Sistemas de recomendación</span><span>Pandas</span><span>scikit-learn</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Ecommerce_Customer_Segmentation" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Precios de vuelos: ¿cuánto aportan los modelos?</h3>
+          <span class="proj-badge badge-done">LEARNBAY</span>
+        </div>
+        <p>300.153 reservas de vuelos (EaseMyTrip, 2022). Solo la clase explica el 88% del precio, así que un R² alto es fácil: el análisis mira el error en rupias y el R² dentro de cada clase. Los modelos lineales resultan peores que una tabla de medias por clase, aerolínea, ruta y escalas (error de 4.633 frente a 3.330 rupias), mientras que el gradient boosting reduce el error un 40% con vuelos conocidos y un 27% con vuelos que no ha visto (2.660 rupias). Una división aleatoria favorece al modelo: con vuelos nuevos el error es un 34% mayor. Rehecho desde mi primera versión; el README explica qué cambió.</p>
+        <div class="proj-tags"><span>scikit-learn</span><span>Gradient boosting</span><span>Evaluación de modelos</span><span>Pandas</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Flight_Price_Prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+    </div>
+    <h2 class="proj-subhead">Desarrollo web — Albañiles Digitales (2024–2025)</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>API Plugin Generator: revisado y reforzado</h3>
+          <span class="proj-badge badge-done">ALBAÑILES</span>
+        </div>
+        <p>Una herramienta en Next.js que genera un plugin de WordPress, una extensión de Chrome o una de Firefox a partir de un formulario. Revisé mi primera versión como si fuera de otra persona y reproduje tres fallos reales contra el código en marcha: el servidor consultaba un servicio interno y devolvía su secreto, el texto escrito en el formulario se convertía en código ejecutable dentro del plugin generado, y el nombre del plugin podía borrar un archivo fuera de su carpeta. Los arreglé y cubrí cada uno con tests que ejecutan el PHP generado con el intérprete real: 162 tests, manifiestos de Chrome válidos y 0 vulnerabilidades en las dependencias de producción (la primera versión tenía 6, una crítica).</p>
+        <div class="proj-tags"><span>Next.js</span><span>TypeScript</span><span>Seguridad</span><span>Tests</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Api_Plugin_Generator" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Data API Fetcher: una extensión de Chrome que funciona sin conexión</h3>
+          <span class="proj-badge badge-done">ALBAÑILES</span>
+        </div>
+        <p>Una extensión Manifest V3 que muestra datos de tres APIs públicas. Revisé mi primera versión cargándola en un Chromium real, con un servidor local que hacía de las APIs, y medí sus fallos: perder la conexión destruía los datos guardados (aunque el README prometía funcionar sin conexión), cada apertura del popup hacía cuatro peticiones y tardaba más de tres segundos, el texto de las APIs se inyectaba como HTML y la alarma de actualización se reiniciaba cada vez que despertaba el service worker. La versión reconstruida conserva el último dato bueno, se abre al instante, dibuja el texto de forma segura, pide permiso solo para las tres rutas de las APIs y tiene 67 tests; el código publicado pasa las mismas 13 comprobaciones en un navegador real.</p>
+        <div class="proj-tags"><span>Extensión de Chrome</span><span>JavaScript</span><span>Manifest V3</span><span>Tests</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Data_Api_Fetcher_Extension" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Web de agencia de actores: accesible y adaptable</h3>
+          <span class="proj-badge badge-done">ALBAÑILES</span>
+        </div>
+        <p>Rehecha a partir de mi proyecto final de HTML y CSS: una web para una agencia ficticia de representación de actores, en HTML, CSS y JavaScript puros. Pesa 88 KB (la carpeta original ocupaba 27 MB), no muestra infracciones en una comprobación automática de accesibilidad con axe-core (WCAG 2.1 AA, 9 páginas, temas claro y oscuro) y se adapta a cualquier pantalla de 320 a 1440 px. Todos los perfiles y las ilustraciones son ficticios y originales.</p>
+        <div class="proj-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Accesibilidad</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://renaabbasova.github.io/Actor_Agency_Website/" target="_blank" rel="noopener">Demo en vivo<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a><a class="proj-link" href="https://github.com/RenaAbbasova/Actor_Agency_Website" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+    </div>
+    <h2 class="proj-subhead">Análisis de datos — bootcamp de Upgrade Hub (2022)</h2>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Datos de cribado de autismo: por qué un 100% de acierto no es un resultado</h3>
+          <span class="proj-badge badge-done">BOOTCAMP</span>
+        </div>
+        <p>Proyecto final del bootcamp, rehecho como un ejercicio de evaluar un modelo con honestidad. El 100% de acierto de la primera versión no era un resultado: en los 912 niños con 2 o más respuestas positivas, la etiqueta es exactamente el punto de corte del propio cuestionario ("4 o más de 10"), y las variables de entrada incluían ese cuestionario. Incluso sin ningún cuestionario los modelos llegan a 0,81-0,83, sobre todo por cómo está escrita la columna de etnia, que identifica la fuente de cada fila (el fichero parece montado con varias fuentes, con un tercio de las filas repetidas). El README documenta lo encontrado y por qué este dataset no puede respaldar afirmaciones sobre predecir autismo. No es una herramienta clínica.</p>
+        <div class="proj-tags"><span>scikit-learn</span><span>Calidad de datos</span><span>Evaluación de modelos</span><span>Pandas</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Autism_Traits_Prediction" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <h3>Airbnb Estambul — Data Storytelling</h3>
+          <span class="proj-badge badge-done">BOOTCAMP</span>
+        </div>
+        <p>Análisis exploratorio y data storytelling de anuncios de Airbnb en Estambul: puntuaciones de reseñas, tipos de propiedad y preferencias de los huéspedes.</p>
+        <div class="proj-tags"><span>Pandas</span><span>Plotly</span><span>Seaborn</span></div>
+        <div class="proj-links"><a class="proj-link" href="https://github.com/RenaAbbasova/Data_Story_Telling" target="_blank" rel="noopener">GitHub<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7v9"/></svg></a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="es-skills" class="section-pad tp-first tab-panel" data-tab="skills">
+  <div class="wrap">
+    <div class="eyebrow">// 05 — habilidades</div>
+    <h1 class="sec">Herramientas</h1>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h2>// backend y lenguajes</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">Python</span>
+          <span class="skill-pill">JavaScript</span>
+          <span class="skill-pill">SQL</span>
+          <span class="skill-pill">Node.js</span>
+          <span class="skill-pill">FastAPI</span>
+          <span class="skill-pill">Express</span>
+          <span class="skill-pill">React</span>
+          <span class="skill-pill">REST APIs</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h2>// datos y bases de datos</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">SQL Server</span>
+          <span class="skill-pill">MongoDB</span>
+          <span class="skill-pill">Supabase</span>
+          <span class="skill-pill">Pandas</span>
+          <span class="skill-pill">NumPy</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h2>// aprendizaje automático</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">Scikit-learn</span>
+          <span class="skill-pill">TensorFlow</span>
+          <span class="skill-pill">Keras</span>
+          <span class="skill-pill">PyTorch</span>
+          <span class="skill-pill">XGBoost</span>
+          <span class="skill-pill">RAG</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h2>// automatización y herramientas</h2>
+        <div class="skill-pills">
+          <span class="skill-pill">Power Automate</span>
+          <span class="skill-pill">Tableau</span>
+          <span class="skill-pill">Power BI</span>
+          <span class="skill-pill">Git / GitHub</span>
+          <span class="skill-pill">Docker</span>
+        </div>
+      </div>
+      <div class="skill-group studied">
+        <h2>// estudiadas — grado y cursos</h2>
+        <p class="skill-note">Aprendidas en mi grado (UOC) y en el programa Albañiles Digitales; no las uso en mis proyectos publicados.</p>
+        <div class="skill-pills">
+          <span class="skill-pill">C++</span>
+          <span class="skill-pill">Java</span>
+          <span class="skill-pill">MySQL</span>
+          <span class="skill-pill">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad border-t tab-panel" data-tab="skills">
+  <div class="wrap">
+    <div class="eyebrow">// 06 — educación</div>
+    <h2>Educación y certificaciones</h2>
+    <div class="edu-list">
+      <div class="edu-row">
+        <div>
+          <div class="deg">Grado en Ingeniería Informática</div>
+          <div class="org">UOC — Universitat Oberta de Catalunya</div>
+        </div>
+        <div class="yr">EN CURSO</div>
+      </div>
+      <div class="edu-row">
+        <div>
+          <div class="deg">Administración y Dirección de Empresas — Título Propio</div>
+          <div class="org">EAE Business School</div>
+        </div>
+        <div class="yr">2009 — 2012</div>
+      </div>
+      <div class="edu-row">
+        <div>
+          <div class="deg">Contabilidad, Facultad de Economía</div>
+          <div class="org">Perm State University</div>
+        </div>
+        <div class="yr">2000 — 2005</div>
+      </div>
+    </div>
+    <div class="cert-list">
+      <div class="cert-row"><span class="mark">✓</span>Data Analytics — Upgrade Hub Bootcamp (mayo – jul 2022)</div>
+      <div class="cert-row"><span class="mark">✓</span>Certificación Avanzada en Data Science e IA Generativa — Learnbay (programa de casi dos años)</div>
+      <div class="cert-row"><span class="mark">✓</span>Certificado en Data Science e IA — IBM Skills Network / Learnvista (mayo 2024)</div>
+      <div class="cert-row"><span class="mark">✓</span>Albañiles Digitales – Software Builders (605h, sep 2024 – feb 2025) — Veridas / Servicio Navarro de Empleo</div>
+      <div class="cert-row"><span class="mark">✓</span>Omdena Local Chapter Challenge — Chatbot de Agricultura Sostenible, Certificado de logro como ML Engineer (mayo 2025)</div>
+      <div class="cert-row"><span class="mark">✓</span>Crash Course on Python — Google</div>
+    </div>
+  </div>
+</section>
+
+<section id="es-contact" class="section-pad tp-first tab-panel" data-tab="contact">
+  <div class="wrap contact-wrap">
+    <div class="eyebrow">// 07 — contacto</div>
+    <h1 class="sec">Hablemos de lo que estás construyendo.</h1>
+    <p class="lede" style="margin-top:0">
+      Abierta a roles en datos, desarrollo backend, o automatización — Pamplona o remoto.
+    </p>
+    <div class="contact-links">
+      <button class="clink" data-cv hidden type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v3h16v-3"/></svg> Descargar CV (PDF)</button>
+      <a class="clink" href="mailto:abbasova.r@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+        abbasova.r@gmail.com
+      </a>
+      <a class="clink" href="https://github.com/RenaAbbasova" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a class="clink" href="https://www.linkedin.com/in/rena" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a class="clink" href="https://public.tableau.com/app/profile/rena7178" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>
+        Tableau Public
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="wrap">
+    <p>RENA ABBASOVA — PAMPLONA, ES</p>
+  </div>
+</footer>
+</div>
+
+<script>
+(function(){
+  var TITLES = {en:'Rena Abbasova — Data, Software & Automation', es:'Rena Abbasova — Datos, Software y Automatización'};
+  var sites = {en: document.getElementById('site-en'), es: document.getElementById('site-es')};
+  var names = ['home','experience','collaborative','projects','skills','contact'];
+  var cur = {lang:'en', tab:'home'};
+
+  function readHash(){
+    var h = (location.hash||'').replace('#','');
+    var parts = h.split('/'), lang=null, tab=null;
+    parts.forEach(function(p){ if(p==='en'||p==='es') lang=p; else if(names.indexOf(p)>-1) tab=p; });
+    return {lang:lang, tab:tab};
+  }
+  function savedLang(){ try{ var v=localStorage.getItem('portfolio-lang'); return (v==='en'||v==='es')?v:null; }catch(e){ return null; } }
+  function render(lang, tab, scroll){
+    if(!sites[lang]) lang='en';
+    if(names.indexOf(tab)===-1) tab='home';
+    cur.lang=lang; cur.tab=tab;
+    ['en','es'].forEach(function(l){ sites[l].classList.toggle('active', l===lang); });
+    var root = sites[lang];
+    Array.prototype.forEach.call(root.querySelectorAll('.tab-panel'), function(p){ p.classList.toggle('active', p.dataset.tab===tab); });
+    Array.prototype.forEach.call(root.querySelectorAll('.navlinks button'), function(t){ t.setAttribute('aria-selected', t.dataset.tab===tab ? 'true':'false'); });
+    document.documentElement.lang = lang;
+    document.title = TITLES[lang];
+    if(scroll) window.scrollTo(0,0);
+    try{ localStorage.setItem('portfolio-lang', lang); }catch(e){}
+    try{ history.replaceState(null,'','#'+lang+'/'+tab); }catch(e){}
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.navlinks button'), function(t){
+    t.addEventListener('click', function(){ render(cur.lang, t.dataset.tab, true); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-goto]'), function(b){
+    b.addEventListener('click', function(){ render(cur.lang, b.dataset.goto, true); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-setlang]'), function(b){
+    b.addEventListener('click', function(){ render(b.dataset.setlang, cur.tab, false); });
+  });
+  window.addEventListener('hashchange', function(){ var h=readHash(); render(h.lang||cur.lang, h.tab||cur.tab, true); });
+
+  var CV = {
+    en:{name:'Rena_Abbasova_CV_EN.pdf', b64:''},
+    es:{name:'Rena_Abbasova_CV_ES.pdf', b64:''}
+  };
+  var dl = null;
+  function cvBlob(lang){
+    var bin = atob(CV[lang].b64), n = bin.length, u8 = new Uint8Array(n);
+    for(var i=0;i<n;i++) u8[i] = bin.charCodeAt(i);
+    return new Blob([u8], {type:'application/pdf'});
+  }
+  function showCv(on){
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cv]'), function(b){ b.hidden = !on; });
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-cv]'), function(b){
+    b.addEventListener('click', function(){
+      if(!dl) return;
+      dl.save({filename: CV[cur.lang].name, data: cvBlob(cur.lang)}).catch(function(e){
+        if(e && e.code && e.code!=='declined' && e.code!=='rate_limited') showCv(false);
+      });
+    });
+  });
+  // Regular website: save the PDF with a normal browser download.
+  dl = {save: function(req){
+    var url = URL.createObjectURL(req.data), a = document.createElement('a');
+    a.href = url; a.download = req.filename; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    return Promise.resolve({status:'saved'});
+  }};
+  showCv(false);
+
+  var h = readHash();
+  var browser = ((navigator.language||'en')+'').toLowerCase().indexOf('es')===0 ? 'es' : 'en';
+  render(h.lang || savedLang() || browser, h.tab || 'home', false);
+})();
+</script>
 </body>
 </html>
-
-

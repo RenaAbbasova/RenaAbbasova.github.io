@@ -1,28 +1,19 @@
-# Personal Portfolio Website
+# Rena Abbasova · portfolio
 
-This is my personal portfolio website showcasing my skills and projects in data science and full-stack development.
+My personal portfolio website, published at **https://renaabbasova.github.io**.
 
-## Features
+It is one static page, [`index.html`](index.html), in English and Spanish: home, experience, collaborative work, projects, skills and education, and contact. There is no build step and no framework.
 
-- Responsive design that works on all devices
-- Sections for about me, skills, projects, and contact information
-- Clean and professional layout
+## What was checked
 
-## Technologies Used
+- **Accessibility:** [axe-core](https://github.com/dequelabs/axe-core) reports **0 violations** in the six sections, in both languages and in light and dark mode.
+- **Responsive:** no horizontal scroll from 320 px wide.
+- **Links:** every link to a GitHub repository answers.
+- It loads one external resource, the fonts from Google Fonts.
 
-- HTML5
-- CSS3
-- JavaScript
-- Font Awesome for icons
+## Related
 
-## Setup
+The demos of some projects live next to it, each in its own repository with its own GitHub Pages:
 
-1. Clone this repository
-2. Customize the content in index.html with your information
-3. Replace placeholder images with your actual project screenshots
-4. Update links to your GitHub, LinkedIn, and other profiles
-5. Deploy to GitHub Pages
-
-## License
-
-MIT
+- [NavAgro dashboard](https://renaabbasova.github.io/NavAgro/)
+- [Actor agency website](https://renaabbasova.github.io/Actor_Agency_Website/)
