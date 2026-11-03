@@ -1507,5 +1507,319 @@
   render(h.lang || savedLang() || browser, h.tab || 'home', false);
 })();
 </script>
+<!-- AVATAR:INICIO (chat del avatar de IA; lo gestiona inyectar_widget.py, no lo edites a mano) -->
+<script>
+  // Lo único que tienes que cambiar. En local: la dirección de tu servidor. En producción: su dirección pública (https).
+  // language: "auto" sigue el atributo lang de la página (es / en); también puede ser "es" o "en" fijos.
+  // theme: "auto" sigue el modo claro/oscuro del sistema; también "light" o "dark" fijos.
+  window.AVATAR_CONFIG = { apiUrl: "https://portfolio-avatar.onrender.com", language: "auto", theme: "auto" };
+</script>
+<script>
+(function () {
+  "use strict";
+  if (window.__avatarChatCargado) return;           // por si el código se pega dos veces
+  window.__avatarChatCargado = true;
+
+  var CFG = Object.assign({
+    apiUrl: "https://portfolio-avatar.onrender.com",
+    language: "auto",
+    theme: "auto",
+    maxChars: 1000,      // igual que el límite del servidor (chat.py)
+    maxHistorial: 10,    // turnos que se mandan de contexto
+    avisoMs: 8000,       // tras cuánto sin respuesta se avisa de que el servidor puede estar despertando
+    limiteMs: 90000      // espera máxima: un servicio gratuito que se "duerme" puede tardar cerca de un minuto en despertar
+  }, window.AVATAR_CONFIG || {});
+
+  // Todos los textos visibles, en los dos idiomas. Se insertan SIEMPRE como texto (textContent), nunca como HTML.
+  var TEXTOS = {
+    es: {
+      lanzador: "Habla con mi avatar", panel: "Chat con el avatar de IA de Rena", titulo: "Avatar de IA de Rena",
+      subtitulo: "Soy una IA. Respondo con lo que Rena ha escrito sobre sí misma.", cerrar: "Cerrar el chat", conversacion: "Conversación",
+      nota: "Esto es una IA y puede equivocarse. Tus mensajes se envían a Anthropic para generar la respuesta. Si dejas tu correo, se enviará a Rena. No compartas datos sensibles.",
+      pregunta: "Escribe tu pregunta", placeholder: "Escribe tu pregunta…", enviar: "Enviar",
+      saludo: "Hola, soy el avatar de IA de Rena. Pregúntame por su experiencia, sus proyectos o su formación.",
+      escribiendo: "El avatar está escribiendo", despertando: " — el servidor puede estar despertando; la primera respuesta puede tardar hasta un minuto.",
+      largo: "El mensaje es demasiado largo (máximo {n} caracteres).",
+      e403: "Este chat no está disponible desde esta web.", e422: "No he podido procesar ese mensaje.",
+      e429: "Hay muchos mensajes ahora mismo. Inténtalo más tarde.",
+      e503: "El avatar no está disponible ahora mismo. Inténtalo de nuevo más tarde o escribe a Rena directamente.",
+      e0: "Algo ha fallado. Inténtalo de nuevo.", inesperada: "He recibido una respuesta inesperada. Inténtalo de nuevo.",
+      tarde: "El avatar ha tardado demasiado en responder. Inténtalo de nuevo.",
+      red: "No he podido conectar con el avatar. Comprueba tu conexión e inténtalo de nuevo."
+    },
+    en: {
+      lanzador: "Talk to my avatar", panel: "Chat with Rena's AI avatar", titulo: "Rena's AI avatar",
+      subtitulo: "I'm an AI. I answer with what Rena has written about herself.", cerrar: "Close the chat", conversacion: "Conversation",
+      nota: "This is an AI and it can make mistakes. Your messages are sent to Anthropic to generate the answer. If you leave your email, it will be sent to Rena. Don't share sensitive data.",
+      pregunta: "Type your question", placeholder: "Type your question…", enviar: "Send",
+      saludo: "Hi, I'm Rena's AI avatar. Ask me about her experience, projects or education.",
+      escribiendo: "The avatar is typing", despertando: " — the server may be waking up; the first answer can take up to a minute.",
+      largo: "The message is too long (maximum {n} characters).",
+      e403: "This chat isn't available from this website.", e422: "I couldn't process that message.",
+      e429: "There are a lot of messages right now. Please try again later.",
+      e503: "The avatar isn't available right now. Please try again later or write to Rena directly.",
+      e0: "Something went wrong. Please try again.", inesperada: "I got an unexpected response. Please try again.",
+      tarde: "The avatar took too long to answer. Please try again.",
+      red: "I couldn't reach the avatar. Check your connection and try again."
+    }
+  };
+
+  var PLANTILLA = [
+    '<style>',
+    ':host { all: initial; }',
+    '* { box-sizing: border-box; }',
+    '.tokens { --fondo:#ffffff; --texto:#111827; --suave:#4b5563; --borde:#d1d5db; --avatar:#f3f4f6; --enlace:#1d4ed8;',
+    '  --primario:#1d4ed8; --sobre-primario:#ffffff; --aviso-fondo:#fef2f2; --aviso-texto:#7f1d1d; --aviso-borde:#fca5a5; }',
+    '@media (prefers-color-scheme: dark) { .tokens[data-tema="auto"] { --fondo:#111827; --texto:#f9fafb; --suave:#d1d5db; --borde:#374151; --avatar:#1f2937;',
+    '  --enlace:#93c5fd; --aviso-fondo:#450a0a; --aviso-texto:#fee2e2; --aviso-borde:#991b1b; } }',
+    '.tokens[data-tema="dark"] { --fondo:#111827; --texto:#f9fafb; --suave:#d1d5db; --borde:#374151; --avatar:#1f2937;',
+    '  --enlace:#93c5fd; --aviso-fondo:#450a0a; --aviso-texto:#fee2e2; --aviso-borde:#991b1b; }',
+    '.tokens { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.45; color: var(--texto); }',
+    '.lanzador { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 2147483000;',
+    '  display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1.1rem; border: 0; border-radius: 999px; cursor: pointer;',
+    '  background: var(--primario); color: var(--sobre-primario); font: inherit; font-weight: 600; box-shadow: 0 4px 14px rgba(0,0,0,.25); }',
+    '.lanzador:focus-visible, button:focus-visible, textarea:focus-visible, a:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }',
+    '.panel { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: calc(76px + env(safe-area-inset-bottom)); z-index: 2147483000;',
+    '  width: min(380px, calc(100vw - 32px)); height: min(560px, calc(100vh - 110px)); display: flex; flex-direction: column;',
+    '  background: var(--fondo); border: 1px solid var(--borde); border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.3); overflow: hidden; }',
+    '.panel[hidden] { display: none; }',
+    '.cabecera { display: flex; align-items: flex-start; gap: .5rem; padding: .75rem .9rem; border-bottom: 1px solid var(--borde); }',
+    '.cabecera h2 { margin: 0; font-size: 1rem; }',
+    '.cabecera p { margin: .15rem 0 0; font-size: .8rem; color: var(--suave); }',
+    '.cerrar { margin-left: auto; border: 0; background: transparent; color: var(--texto); font-size: 1.4rem; line-height: 1; cursor: pointer; padding: .1rem .45rem; border-radius: 6px; }',
+    '.mensajes { flex: 1; overflow-y: auto; padding: .9rem; display: flex; flex-direction: column; gap: .6rem; }',
+    '.burbuja { max-width: 88%; padding: .55rem .8rem; border-radius: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }',
+    '.burbuja.avatar { align-self: flex-start; background: var(--avatar); }',
+    '.burbuja.visitante { align-self: flex-end; background: var(--primario); color: var(--sobre-primario); }',
+    '.burbuja a { color: var(--enlace); text-decoration: underline; } .burbuja.visitante a { color: inherit; }',
+    '.aviso { align-self: stretch; padding: .55rem .8rem; border-radius: 10px; font-size: .88rem; background: var(--aviso-fondo); color: var(--aviso-texto); border: 1px solid var(--aviso-borde); }',
+    '.escribiendo { align-self: flex-start; color: var(--suave); font-size: .85rem; }',
+    '.escribiendo .puntos span { display: inline-block; animation: salto 1s infinite; } .escribiendo .puntos span:nth-child(2) { animation-delay: .15s; } .escribiendo .puntos span:nth-child(3) { animation-delay: .3s; }',
+    '@keyframes salto { 0%, 60%, 100% { transform: none; } 30% { transform: translateY(-3px); } }',
+    '@media (prefers-reduced-motion: reduce) { .escribiendo .puntos span { animation: none; } }',
+    '.pie { border-top: 1px solid var(--borde); padding: .6rem .7rem .7rem; }',
+    '.nota { margin: 0 0 .45rem; font-size: .74rem; color: var(--suave); }',
+    '.fila { display: flex; gap: .5rem; align-items: flex-end; }',
+    'textarea { flex: 1; resize: none; min-height: 2.6rem; max-height: 7rem; padding: .5rem .6rem; border: 1px solid var(--borde); border-radius: 8px;',
+    '  background: var(--fondo); color: var(--texto); font: inherit; }',
+    '.enviar { border: 0; border-radius: 8px; padding: .55rem .9rem; background: var(--primario); color: var(--sobre-primario); font: inherit; font-weight: 600; cursor: pointer; }',
+    '.enviar:disabled { opacity: .55; cursor: not-allowed; }',
+    '.contador { font-size: .72rem; color: var(--suave); text-align: right; min-height: 1rem; margin-top: .2rem; }',
+    '@media (max-width: 480px) { .panel { right: 8px; left: 8px; width: auto; bottom: calc(72px + env(safe-area-inset-bottom)); } }',
+    '</style>',
+    '<div class="tokens" data-tema="auto">',
+    '  <button class="lanzador" type="button" aria-expanded="false" aria-controls="panel"><span aria-hidden="true">💬</span> <span class="etq"></span></button>',
+    '  <section class="panel" id="panel" role="dialog" aria-modal="false" hidden>',
+    '    <div class="cabecera"><div><h2 class="titulo"></h2><p class="subtitulo"></p></div>',
+    '      <button class="cerrar" type="button">×</button></div>',
+    '    <div class="mensajes" role="log" aria-live="polite" aria-relevant="additions" tabindex="0"></div>',
+    '    <div class="pie">',
+    '      <p class="nota"></p>',
+    '      <div class="fila"><textarea rows="1"></textarea>',
+    '        <button class="enviar" type="button"></button></div>',
+    '      <div class="contador" aria-hidden="true"></div>',
+    '    </div>',
+    '  </section>',
+    '</div>'
+  ].join("\n");
+
+  var REGEX_ENLACES = /(https?:\/\/[^\s<>"']+)|([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g;
+
+  // --------------------------------------------------------------------- utilidades
+  // Texto con enlaces SEGUROS: todo se inserta como texto (textContent); solo se crean <a> para http(s) y correos.
+  // Lo que escribe el visitante o devuelve el modelo NUNCA pasa por innerHTML.
+  function rellenar(contenedor, texto) {
+    var ultimo = 0, m;
+    REGEX_ENLACES.lastIndex = 0;
+    while ((m = REGEX_ENLACES.exec(texto)) !== null) {
+      var literal = m[0], cola = "";
+      var final = literal.match(/[.,;:!?)\]}]+$/);          // la puntuación del final no es parte del enlace
+      if (final) { cola = final[0]; literal = literal.slice(0, -cola.length); }
+      if (m.index > ultimo) contenedor.appendChild(document.createTextNode(texto.slice(ultimo, m.index)));
+      var destino = null;
+      if (m[1]) { try { var u = new URL(literal); if (u.protocol === "http:" || u.protocol === "https:") destino = u.href; } catch (e) { destino = null; } }
+      else if (m[2]) { destino = "mailto:" + literal; }
+      if (destino) {
+        var a = document.createElement("a");
+        a.href = destino; a.textContent = literal; a.rel = "noopener noreferrer";
+        if (m[1]) a.target = "_blank";
+        contenedor.appendChild(a);
+      } else {
+        contenedor.appendChild(document.createTextNode(literal));
+      }
+      if (cola) contenedor.appendChild(document.createTextNode(cola));
+      ultimo = m.index + m[0].length;
+    }
+    if (ultimo < texto.length) contenedor.appendChild(document.createTextNode(texto.slice(ultimo)));
+  }
+
+  // El idioma sale de la configuración o, si es "auto", del atributo lang de la página (tu portfolio lo cambia con el interruptor EN/ES).
+  function idiomaActual() {
+    if (CFG.language === "es" || CFG.language === "en") return CFG.language;
+    var l = String(document.documentElement.lang || "").toLowerCase();
+    return l.indexOf("es") === 0 ? "es" : "en";
+  }
+  function t() { return TEXTOS[idiomaActual()]; }
+
+  function mensajeDeError(estado) {
+    var x = t();
+    if (estado === 403) return x.e403;
+    if (estado === 413 || estado === 422) return x.e422;
+    if (estado === 429) return x.e429;
+    if (estado === 503) return x.e503;
+    return x.e0;
+  }
+
+  // --------------------------------------------------------------------- montaje
+  var anfitrion = document.createElement("div");
+  anfitrion.id = "avatar-chat-host";
+  var raiz = anfitrion.attachShadow({ mode: "open" });   // Shadow DOM: los estilos de tu portfolio y los del chat no se mezclan
+  raiz.innerHTML = PLANTILLA;                              // innerHTML solo se usa con esta CONSTANTE
+  document.body.appendChild(anfitrion);
+
+  var tokens = raiz.querySelector(".tokens"), lanzador = raiz.querySelector(".lanzador"), etq = raiz.querySelector(".etq");
+  var panel = raiz.querySelector(".panel"), cerrar = raiz.querySelector(".cerrar");
+  var titulo = raiz.querySelector(".titulo"), subtitulo = raiz.querySelector(".subtitulo");
+  var mensajes = raiz.querySelector(".mensajes"), nota = raiz.querySelector(".nota");
+  var entrada = raiz.querySelector("textarea"), enviar = raiz.querySelector(".enviar"), contador = raiz.querySelector(".contador");
+
+  tokens.setAttribute("data-tema", (CFG.theme === "light" || CFG.theme === "dark") ? CFG.theme : "auto");
+
+  var historial = [];      // solo turnos que SALIERON BIEN: {role, content}
+  var esperando = false;
+  var saludo = null;       // la burbuja de bienvenida, para poder traducirla al cambiar de idioma
+
+  function burbuja(clase, texto) {
+    var el = document.createElement("div");
+    el.className = "burbuja " + clase;
+    rellenar(el, texto);
+    mensajes.appendChild(el);
+    mensajes.scrollTop = mensajes.scrollHeight;
+    return el;
+  }
+  function aviso(texto) {
+    var el = document.createElement("div");
+    el.className = "aviso"; el.setAttribute("role", "alert"); el.textContent = texto;   // los errores NO se muestran como si los dijera el avatar
+    mensajes.appendChild(el);
+    mensajes.scrollTop = mensajes.scrollHeight;
+    return el;
+  }
+
+  // Pone todos los textos fijos en el idioma actual. Se llama al montar y cada vez que cambia el atributo lang de la página.
+  function aplicarIdioma() {
+    var x = t();
+    etq.textContent = x.lanzador; titulo.textContent = x.titulo; subtitulo.textContent = x.subtitulo; nota.textContent = x.nota;
+    enviar.textContent = x.enviar; entrada.placeholder = x.placeholder;
+    panel.setAttribute("aria-label", x.panel); cerrar.setAttribute("aria-label", x.cerrar);
+    mensajes.setAttribute("aria-label", x.conversacion); entrada.setAttribute("aria-label", x.pregunta);
+    if (saludo) { while (saludo.firstChild) saludo.removeChild(saludo.firstChild); rellenar(saludo, x.saludo); }
+    var viva = raiz.querySelector(".escribiendo .txt");
+    if (viva) viva.textContent = x.escribiendo + " ";
+  }
+
+  function abrir() {
+    panel.hidden = false; lanzador.setAttribute("aria-expanded", "true");
+    entrada.focus();
+  }
+  function cerrarPanel() {
+    panel.hidden = true; lanzador.setAttribute("aria-expanded", "false");
+    lanzador.focus();
+  }
+  lanzador.addEventListener("click", function () { panel.hidden ? abrir() : cerrarPanel(); });
+  cerrar.addEventListener("click", cerrarPanel);
+  raiz.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hidden) { e.preventDefault(); cerrarPanel(); } });
+
+  function actualizarContador() {
+    var n = entrada.value.length;
+    contador.textContent = n > CFG.maxChars * 0.8 ? n + "/" + CFG.maxChars : "";
+  }
+  entrada.setAttribute("maxlength", String(CFG.maxChars));
+  entrada.addEventListener("input", actualizarContador);
+
+  function ocupado(si) {
+    esperando = si; enviar.disabled = si;
+    mensajes.setAttribute("aria-busy", si ? "true" : "false");
+  }
+
+  async function mandar() {
+    if (esperando) return;
+    var texto = entrada.value.trim();
+    if (!texto) return;
+    if (texto.length > CFG.maxChars) { aviso(t().largo.replace("{n}", String(CFG.maxChars))); return; }
+
+    var pendiente = burbuja("visitante", texto);
+    entrada.value = ""; actualizarContador();
+    ocupado(true);
+
+    var escribiendo = document.createElement("div");
+    escribiendo.className = "escribiendo"; escribiendo.setAttribute("role", "status");
+    var txt = document.createElement("span"); txt.className = "txt"; txt.textContent = t().escribiendo + " ";
+    var puntos = document.createElement("span"); puntos.className = "puntos"; puntos.setAttribute("aria-hidden", "true");
+    for (var i = 0; i < 3; i++) { var p = document.createElement("span"); p.textContent = "."; puntos.appendChild(p); }
+    escribiendo.appendChild(txt); escribiendo.appendChild(puntos);
+    mensajes.appendChild(escribiendo); mensajes.scrollTop = mensajes.scrollHeight;
+
+    var avisoDespertar = setTimeout(function () {
+      var d = document.createElement("span");
+      d.textContent = t().despertando;
+      escribiendo.appendChild(d);
+    }, CFG.avisoMs);
+    var control = new AbortController();
+    var limite = setTimeout(function () { control.abort(); }, CFG.limiteMs);
+
+    var error = null, respuestaTexto = null;
+    try {
+      var respuesta = await window.fetch(CFG.apiUrl.replace(/\/+$/, "") + "/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          message: texto,
+          history: historial.slice(-CFG.maxHistorial).map(function (h) { return { role: h.role, content: h.content.slice(0, 2000) }; })
+        }),
+        signal: control.signal,
+        credentials: "omit"                             // el chat no usa cookies
+      });
+      var datos = null;
+      try { datos = await respuesta.json(); } catch (e) { datos = null; }
+      if (!respuesta.ok) {
+        error = function () { return mensajeDeError(respuesta.status); };
+      } else if (!datos || typeof datos.reply !== "string" || !datos.reply.trim()) {
+        error = function () { return t().inesperada; };
+      } else {
+        respuestaTexto = datos.reply;
+      }
+    } catch (e) {
+      var abortado = e && e.name === "AbortError";
+      error = function () { return abortado ? t().tarde : t().red; };
+    } finally {
+      clearTimeout(avisoDespertar); clearTimeout(limite);
+      escribiendo.remove(); ocupado(false);
+    }
+
+    if (error) {
+      pendiente.remove();                                // el turno falló: no se queda en la conversación ni en el historial
+      entrada.value = texto; actualizarContador();       // y se devuelve al cuadro para poder reenviarlo
+      aviso(error());                                    // el texto se calcula AHORA, en el idioma actual de la página
+    } else {
+      historial.push({ role: "user", content: texto }, { role: "assistant", content: respuestaTexto });
+      burbuja("avatar", respuestaTexto);
+    }
+    entrada.focus();
+  }
+
+  enviar.addEventListener("click", mandar);
+  entrada.addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey && !e.isComposing) { e.preventDefault(); mandar(); }
+  });
+
+  saludo = burbuja("avatar", t().saludo);
+  aplicarIdioma();
+  // Cuando tu portfolio cambia de idioma, cambia el atributo lang de <html>: el chat se entera y se traduce.
+  if (typeof MutationObserver === "function") {
+    new MutationObserver(aplicarIdioma).observe(document.documentElement, { attributes: true, attributeFilter: ["lang"] });
+  }
+})();
+</script>
+<!-- AVATAR:FIN -->
 </body>
 </html>
